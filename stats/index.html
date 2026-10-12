@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f2eee6">
+<title>Player stats · Gamescool</title>
+<meta name="description" content="How many people are playing on Gamescool right now, the peaks, and players, plays and hours for every game.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/mplus2-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/silkscreen.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/_live/stats.css">
+<script src="/_live/stats.js" defer></script>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <a class="wordmark" href="/" aria-label="Gamescool home"><img src="/brand/gamescool-lockup.svg" alt="" width="158" height="24"></a>
+    <h1 class="top-title">Player stats</h1>
+    <div class="top-end"><time id="clock" class="clock">--:-- UTC</time></div>
+  </header>
+
+  <p id="alert" class="alert" role="status" hidden></p>
+
+  <main id="stats" class="stats" aria-busy="true">
+    <section class="hero" aria-labelledby="now-label">
+      <div class="hero-now">
+        <p class="eyebrow" id="now-label"><span class="pulse" aria-hidden="true"></span>In a game now</p>
+        <output id="playing" class="big-num" aria-live="polite">–</output>
+        <p class="hero-sub" id="online-line">&nbsp;</p>
+        <dl class="hero-facts">
+          <div><dt>Peak today</dt><dd><b id="peak-today">–</b><small id="peak-today-at">&nbsp;</small></dd></div>
+          <div><dt>Record</dt><dd><b id="record">–</b><small id="record-at">&nbsp;</small></dd></div>
+          <div><dt>Players today</dt><dd><b id="players-today">–</b><small id="plays-today">&nbsp;</small></dd></div>
+        </dl>
+      </div>
+      <figure class="hero-chart">
+        <div class="chart-head">
+          <figcaption>Players online</figcaption>
+          <div class="seg" role="group" aria-label="Time range">
+            <button type="button" data-range="h48" aria-pressed="true">48 hours</button>
+            <button type="button" data-range="d7" aria-pressed="false">7 days</button>
+            <button type="button" data-range="d30" aria-pressed="false">30 days</button>
+          </div>
+        </div>
+        <div class="legend-row" aria-hidden="true">
+          <span class="legend"><i class="lg-play"></i>In a game</span>
+          <span class="legend"><i class="lg-online"></i>On the site</span>
+        </div>
+        <div class="chart" id="chart">
+          <svg id="chart-svg" role="img" aria-labelledby="chart-desc"><desc id="chart-desc">Players online over time</desc></svg>
+          <div class="tip" id="tip" aria-hidden="true"></div>
+        </div>
+        <p class="chart-note" id="chart-note"></p>
+      </figure>
+    </section>
+
+    <section class="totals" aria-label="All time">
+      <article class="total">
+        <h2>Players</h2>
+        <p class="total-num" id="t-players">–</p>
+        <p class="total-note" id="t-players-note">&nbsp;</p>
+      </article>
+      <article class="total">
+        <h2>Plays</h2>
+        <p class="total-num" id="t-plays">–</p>
+        <p class="total-note" id="t-plays-note">&nbsp;</p>
+      </article>
+      <article class="total">
+        <h2>Hours played</h2>
+        <p class="total-num" id="t-hours">–</p>
+        <p class="total-note" id="t-hours-note">&nbsp;</p>
+      </article>
+      <article class="total">
+        <h2>Meme Surge runs</h2>
+        <p class="total-num" id="t-runs">–</p>
+        <p class="total-note" id="t-runs-note">&nbsp;</p>
+      </article>
+    </section>
+
+    <section class="card" aria-labelledby="games-title">
+      <div class="card-head">
+        <h2 id="games-title">Games</h2>
+        <p class="count">Sorted by players in a game now</p>
+      </div>
+      <table class="games">
+        <thead>
+          <tr>
+            <th scope="col" class="c-game">Game</th>
+            <th scope="col" class="c-num">In game now</th>
+            <th scope="col" class="c-num">Peak today</th>
+            <th scope="col" class="c-num c-wide">Record</th>
+            <th scope="col" class="c-num">Players</th>
+            <th scope="col" class="c-num">Plays</th>
+            <th scope="col" class="c-num c-wide">Hours</th>
+          </tr>
+        </thead>
+        <tbody id="games"></tbody>
+      </table>
+    </section>
+
+    <section class="card" aria-labelledby="days-title">
+      <div class="card-head">
+        <h2 id="days-title">By day</h2>
+        <p class="count">UTC days</p>
+      </div>
+      <div class="days-wrap">
+        <table class="days">
+          <thead>
+            <tr>
+              <th scope="col" class="c-day">Day</th>
+              <th scope="col" class="c-num">Peak</th>
+              <th scope="col" class="c-num c-wide">Visitors</th>
+              <th scope="col" class="c-num">Players</th>
+              <th scope="col" class="c-num">Plays</th>
+              <th scope="col" class="c-num c-wide">Hours</th>
+              <th scope="col" class="c-num c-wide">Runs</th>
+            </tr>
+          </thead>
+          <tbody id="days"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <details class="how">
+      <summary>How we count</summary>
+      <dl>
+        <div><dt>In a game</dt><dd>A visible tab on a game with a tap, key, click or controller input in the last 90 seconds. Tabs of one browser count once.</dd></div>
+        <div><dt>On the site</dt><dd>Every open tab of Gamescool, including the shelf and background tabs.</dd></div>
+        <div><dt>Players</dt><dd>Browsers that opened a game, counted once per calendar month. A player who comes back next month counts again.</dd></div>
+        <div><dt>Plays</dt><dd>A play starts when someone opens a game after 30 minutes or more away from it.</dd></div>
+        <div><dt>Hours played</dt><dd>Time in a game with recent input. Idle and background tabs do not count.</dd></div>
+        <div><dt>Meme Surge runs</dt><dd>Runs started: solo Survival, District and Road runs, and finished co-op squads, from the game's own records.</dd></div>
+        <div><dt>Before the live count</dt><dd id="how-log">Days before the live count come from the server's request log: a game counts as opened when its own art or API was loaded, not the shelf cover. Peaks and hours start with the live count.</dd></div>
+      </dl>
+      <p class="how-foot">Counts only. No names, addresses or cookies appear here. All times UTC.</p>
+    </details>
+  </main>
+</div>
+</body>
+</html>

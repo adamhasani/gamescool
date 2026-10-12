@@ -1,0 +1,24 @@
+/* Game 17 base layer: full-screen canvas + a UI root the UI lane fills. */
+:root { --ink: #0b0714; color-scheme: dark; }
+html, body { margin: 0; height: 100%; background: var(--ink); overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none; }
+#view { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; image-rendering: pixelated; }
+#ui { position: fixed; inset: 0; pointer-events: none; }
+#ui > * { pointer-events: auto; }
+
+/* Game 17 UI lane. Everything visible is drawn into pixel canvases at game resolution (src/ui/px.ts Layer) and blown up
+   with nearest-neighbour; CSS only stacks the layers and routes pointer input. */
+#ui > .hud17, #ui > .tch17, #ui > .scr17 { position: fixed; inset: 0; pointer-events: none; }
+#ui > .hud17 { z-index: 1; }
+#ui > .tch17 { z-index: 2; touch-action: none; }
+#ui > .scr17 { z-index: 3; touch-action: none; }
+#ui > .tch17.on, #ui > .scr17.on { pointer-events: auto; }
+#ui > .scr17.on { cursor: pointer; }
+.g17-layer { position: absolute; left: 0; top: 0; image-rendering: pixelated; image-rendering: crisp-edges; pointer-events: none; }
+.g17-layer { image-rendering: pixelated; }
+#g17-safe {
+  position: fixed; left: 0; top: 0; width: 0; height: 0; visibility: hidden; pointer-events: none;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+/* UI2: the city route map + chapter cards sit over everything while they run */
+#ui > .rte17 { position: fixed; inset: 0; pointer-events: none; z-index: 4; touch-action: none; }
+#ui > .rte17.on { pointer-events: auto; cursor: pointer; }

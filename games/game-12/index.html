@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#3a0e11">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Kite Wanderer</title>
+<meta name="apple-mobile-web-app-title" content="Kite Wanderer">
+<link rel="preload" href="fonts-fraunces-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts-nunito.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="loading-songket-1600.webp" imagesrcset="loading-songket-1280.webp 1280w, loading-songket-1600.webp 1600w" imagesizes="100vw" type="image/webp" media="(min-aspect-ratio: 1/1)" fetchpriority="high">
+<link rel="preload" as="image" href="loading-songket-portrait-960.webp" type="image/webp" media="(max-aspect-ratio: 999/1000)" fetchpriority="high">
+<style>/* critical: the loading cloth's colours at the very first paint (blurred 40x23 placeholders of the songket art); style.css does the rest */
+html{background:#3a0e11}
+#loading{position:fixed;inset:0;z-index:100;overflow:hidden;background:#3a0e11}
+#loading::before{content:"";position:absolute;inset:-6%;background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAXACgDAREAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAgMEBQABBv/EACkQAAEDAwIEBgMAAAAAAAAAAAECAxEAEjEEIUFRYYEFExQioeGRwdH/xAAZAQADAQEBAAAAAAAAAAAAAAABAgMABAX/xAAdEQADAAMAAwEAAAAAAAAAAAAAARECITESQVFh/9oADAMBAAIRAxEAPwDhEvvlAi3cbAkccfuuXR6aw/TYeeUEkJBuUEjHMfdZwMVg51avVNaXTrS46r2nAF3KYzmlTu3wZ4aoGoOs0y7X2lIExJAiZplGKsb7FrffAMxtM44ffxQUC8Pg7w3Ree+S62r07Yleew5mZ+KGbinsOLrpZJbLY9qAIMhIz+O1Tb9B8V0ptYyDqL0JIcBmw78NiI6iKsvhlk0iWrxF9enc0ryLkLUDN2COIPWKE4xYk9MguIMghJAKcBP97U0M3Sdp3Cyq9L5BwNidopGr0G0tIwugqu803cTBmqeSkhLwz6E8627aVLIUBBUkEEjh361Na4V21tC4bMgPOQep2pqLHOAwBh9ZzGeVZthS/D//2Q==) 28% 50%/cover no-repeat;filter:blur(22px)}
+@media (max-aspect-ratio:999/1000){#loading::before{background-image:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAoABcDAREAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAwUAAQQG/8QALBAAAQMDAgIJBQAAAAAAAAAAAQIDEQASIQQxIkEUQmFxgaHB0fEFE1Fisf/EABkBAAMBAQEAAAAAAAAAAAAAAAABAgMEBf/EACARAAIDAAIBBQAAAAAAAAAAAAABAhEhEjFBA1GxwfD/2gAMAwEAAhEDEQA/AOB6Q7aSVIm2eXZ2VxYe1w0s6h0FQKk47ufhRgL02UdS6LuNvBice1GAob2CSpITIUqQkdYb4z/KejXG+hq5qtFrmXekpS3qgngW2LQpWxB5dtTTjVEJSu10LHEi2Csg4MlQPfVaWlFPESHLYt6vKMCfmlg98hftoDDjuoUUEcKEAbkRO3hSbfSHGpOwBuszm8SMgfAqsEk06GX0rSsuNOOqAUtJASNiPfHrWc5O6DKw0a1gONAFtLgEkwrapi9DpYxKsNpSqMwMEpj8ekVtolT8jHTpDF9jkXJgxAnzpLj2zObm1S+wjTpbWlaVAR+1OTjJURCM4/mZ16dsk2KSiTPCBjzqVXk25y9vk//Z);background-position:50% 0%}}
+</style>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Ccircle cx=%278%27 cy=%278%27 r=%277%27 fill=%27%232f7f86%27/%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app"></div>
+<div id="ui"></div>
+<div id="loading" role="progressbar" aria-label="Loading Kite Wanderer" aria-valuemin="0" aria-valuemax="100">
+  <picture class="ld-art">
+    <source media="(max-aspect-ratio: 999/1000)" srcset="loading-songket-portrait-960.webp" type="image/webp">
+    <img src="loading-songket-1600.webp" srcset="loading-songket-1280.webp 1280w, loading-songket-1600.webp 1600w" sizes="100vw" alt="" fetchpriority="high"
+      onload="var i=this,l=document.getElementById('loading');(i.decode?i.decode():Promise.resolve()).catch(function(){}).then(function(){l.classList.add('art-in')})">
+  </picture>
+  <div class="ld-shade" aria-hidden="true"></div>
+  <div class="ld-copy">
+    <div class="ld-head">
+      <div class="ld-title">Kite Wanderer</div>
+      <div class="ld-thread" aria-hidden="true"><i class="ld-fill"></i></div>
+      <div class="ld-status" aria-hidden="true"><span>Loading</span><span class="ld-pct"></span></div>
+      <div id="loading-text">LOADING</div>
+    </div>
+    <p class="ld-tip">Climb any steep face while your stamina wheel lasts.</p>
+  </div>
+</div>
+<script type="module" src="game.8c4860d522.js"></script>
+</body>
+</html>

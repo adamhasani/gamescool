@@ -1,0 +1,91 @@
+html,body{margin:0;height:100%;background:#ebe8e2;overflow:hidden}
+#view{position:fixed;inset:0;width:100%;height:100%;display:block}
+#hud{position:fixed;inset:0;pointer-events:none;font:14px/1.3 system-ui,sans-serif;color:#1b1a22}
+
+/* ---- HUD (lane D): our own Nusantara-motif art, see src/ui/art.js ----
+   Colours are the HUD's own (art.js COLORS; the chips below use the same nila / gold / paper), not palette colours. */
+#hud{--ib-ink:#1b1a22;--ib-paper:#f4ead3;--ib-paper2:#e6d5b0;--ib-nila:#1f2b63;--ib-gold:#d6a43f;--ib-soga:#8c4a22;--ib-cinnabar:#b3291f;
+  --ib-chip-border:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M0 0H24V24H0Z M6 6V18H18V6Z' fill='%231f2b63' fill-rule='evenodd'/%3E %3Cpath d='M5.5 5.5H18.5V18.5H5.5Z' fill='none' stroke='%23d6a43f' stroke-width='1'/%3E %3Cg fill='%23f5d88a'%3E%3Ccircle cx='12' cy='2.9' r='1.25'/%3E%3Ccircle cx='12' cy='21.1' r='1.25'/%3E%3Ccircle cx='2.9' cy='12' r='1.25'/%3E%3Ccircle cx='21.1' cy='12' r='1.25'/%3E%3C/g%3E %3Cg fill='%23d6a43f'%3E%3Cpath d='M3 1L5 3L3 5L1 3Z'/%3E%3Cpath d='M21 1L23 3L21 5L19 3Z'/%3E%3Cpath d='M3 19L5 21L3 23L1 21Z'/%3E%3Cpath d='M21 19L23 21L21 23L19 21Z'/%3E%3C/g%3E %3C/svg%3E");
+  --ib-strip-border:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E %3Cpath d='M0 0H32V32H0Z M8 8V24H24V8Z' fill='%231f2b63' fill-rule='evenodd'/%3E %3Cg stroke='%23d6a43f' stroke-width='1.6' stroke-linecap='round' fill='none'%3E %3Cpath d='M9.5 6.5C11 4.5 12.5 4 14 1.5M17.5 6.5C19 4.5 20.5 4 22 1.5'/%3E %3Cpath d='M9.5 30.5C11 28.5 12.5 28 14 25.5M17.5 30.5C19 28.5 20.5 28 22 25.5'/%3E %3Cpath d='M1.5 9.5C4 11 4.5 12.5 6.5 14M1.5 17.5C4 19 4.5 20.5 6.5 22'/%3E %3Cpath d='M25.5 9.5C28 11 28.5 12.5 30.5 14M25.5 17.5C28 19 28.5 20.5 30.5 22'/%3E %3C/g%3E %3Cpath d='M7.4 7.4H24.6V24.6H7.4Z' fill='none' stroke='%23f5d88a' stroke-width='1.1'/%3E %3Cg fill='%23d6a43f' stroke='%238c4a22' stroke-width='0.8'%3E%3Ccircle cx='4' cy='4' r='2.6'/%3E%3Ccircle cx='28' cy='4' r='2.6'/%3E%3Ccircle cx='4' cy='28' r='2.6'/%3E%3Ccircle cx='28' cy='28' r='2.6'/%3E%3C/g%3E %3C/svg%3E")}
+#hud .ib-hud{position:absolute;inset:0;opacity:0;transition:opacity .6s ease .12s;pointer-events:none;user-select:none}
+#hud .ib-hud.ib-on{opacity:1}
+#hud .ib-start{position:absolute;left:58%;right:6%;top:58%;display:flex;justify-content:center;opacity:0;transition:opacity .5s ease;pointer-events:none}
+#hud .ib-start.ib-show{opacity:1}
+#hud .ib-start span{font:400 clamp(16px,1.4vw,26px)/1.3 "Iowan Old Style","Palatino Linotype",Georgia,serif;letter-spacing:.26em;
+  color:var(--ib-ink,#1a1a22);text-shadow:0 0 12px rgba(244,234,211,.9);animation:ib-breathe 2.6s ease-in-out infinite}
+/* phones: the line sits right under the title card, in the paper above the Guardian's crown (at 10% from the bottom it
+   lay over the Guardian's belt and hardly read); the card is min(86vw, 440px) wide at 1400:412 */
+@media (max-width:640px){#hud .ib-start{left:6%;right:6%;top:calc(max(58px,8%) + min(86vw,440px) * .2943 + 14px)}}
+@keyframes ib-breathe{0%,100%{opacity:.55}50%{opacity:1}}
+/* the name on the first page: the wordmark sits over "Press any key" in the same column (its foot 3% above the line)
+   and paints in left to right like a brush; it fades out when the opening starts. Phones: the paper above the crown. */
+#hud .ib-title{position:absolute;left:58%;right:6%;bottom:45%;display:flex;justify-content:center;opacity:0;transition:opacity .7s ease;pointer-events:none}
+#hud .ib-title.ib-show{opacity:1;transition-duration:.9s}
+#hud .ib-title img{display:block;width:min(92%,560px);height:auto;user-select:none;filter:drop-shadow(0 0 10px rgba(244,234,211,.85));
+  -webkit-mask-image:linear-gradient(90deg,#000 40%,transparent 60%);mask-image:linear-gradient(90deg,#000 40%,transparent 60%);
+  -webkit-mask-size:260% 100%;mask-size:260% 100%;-webkit-mask-position:0 0;mask-position:0 0}
+#hud .ib-title.ib-show img{animation:ib-ink-in 1.6s cubic-bezier(.3,.6,.2,1) .15s both}
+@keyframes ib-ink-in{from{-webkit-mask-position:100% 0;mask-position:100% 0}to{-webkit-mask-position:0 0;mask-position:0 0}}
+@media (max-width:640px){#hud .ib-title{left:7%;right:7%;top:max(58px,8%);bottom:auto}#hud .ib-title img{width:min(100%,440px)}}
+@media (prefers-reduced-motion:reduce){#hud .ib-title.ib-show img{animation:none}}
+#hud .ib-hud svg{display:block;overflow:visible}
+/* a paper chip framed by a batik border (nila band, gold dots, gold hairline) */
+#hud .ib-chip{background:linear-gradient(180deg,#f7efdc 0%,var(--ib-paper) 55%,var(--ib-paper2) 100%);border:6px solid transparent;
+  border-image:var(--ib-chip-border) 6 round;box-shadow:0 2px 8px rgba(20,18,26,.28)}
+
+/* boss bar: a parang-bordered channel 40% of the screen wide, top centre (wider on a phone) */
+#hud .ib-boss{position:absolute;top:max(8px,1.3vh);left:50%;width:clamp(280px,40vw,1100px);transform:translate(-50%,0)}
+#hud .ib-bar{width:100%;height:auto;filter:drop-shadow(0 1px 2px rgba(20,18,26,.45))}
+#hud .ib-pips{display:flex;justify-content:center;gap:clamp(6px,.8vw,15px);margin-top:calc(-1 * clamp(2px,.35vw,6px))}
+#hud .ib-pip{width:clamp(22px,2.2vw,42px);height:auto;filter:drop-shadow(0 1px 1.5px rgba(20,18,26,.5))}
+#hud .ib-pip .p-broken{display:none}
+#hud .ib-pip[data-s="broken"] .p-ok{display:none}
+#hud .ib-pip[data-s="broken"] .p-broken{display:inline}
+
+/* life: five kawung medallions on a narrow batik-bordered strip, bottom left */
+#hud .ib-life{position:absolute;left:max(14px,2vw);bottom:max(14px,2.4vh)}
+#hud .ib-strip{display:flex;gap:clamp(3px,.42vw,8px);padding:clamp(3px,.3vw,6px) clamp(5px,.55vw,10px);
+  background:linear-gradient(180deg,#f8f0dd 0%,var(--ib-paper) 50%,var(--ib-paper2) 100%);
+  border:clamp(6px,.55vw,9px) solid transparent;border-image:var(--ib-strip-border) 8 round;box-shadow:0 2px 8px rgba(20,18,26,.3)}
+#hud .ib-seal{width:clamp(26px,2.9vw,54px);height:auto;filter:drop-shadow(0 1px 1px rgba(40,24,8,.35))}
+#hud .ib-seal .s-life,#hud .ib-seal .s-ink,#hud .ib-seal .s-empty,#hud .ib-seal .s-conv{display:none}
+#hud .ib-seal[data-s="life"] .s-life,#hud .ib-seal[data-s="ink"] .s-ink,#hud .ib-seal[data-s="empty"] .s-empty{display:inline}
+#hud .ib-seal.ib-conv .s-conv{display:inline}
+/* parry streak: three small gold knots past the strip's end; the third perfect parry restores a medallion */
+#hud .ib-streak{position:absolute;right:calc(-1 * clamp(16px,1.6vw,26px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:clamp(3px,.35vw,6px)}
+#hud .ib-streak i{display:block;width:clamp(7px,.6vw,11px);height:clamp(7px,.6vw,11px);transform:rotate(45deg);border:1.5px solid rgba(142,97,24,.7);background:rgba(244,234,211,.7);transition:background .15s ease,border-color .15s ease}
+#hud .ib-streak i.on{background:var(--ib-gold);border-color:#6b4a14;box-shadow:0 0 5px rgba(245,216,138,.9)}
+
+/* key hints, bottom right; fade out after 10 s of play */
+#hud .ib-keys{position:absolute;right:max(14px,2vw);bottom:max(14px,2.4vh);text-align:right;font:12.5px/1.55 system-ui,sans-serif;
+  color:var(--ib-ink);padding:3px 9px;transition:opacity 1.2s ease}
+#hud .ib-keys span{color:#4a4650;margin-right:.35em}
+#hud .ib-keys b{font-weight:650;color:var(--ib-nila)}
+#hud .ib-keys.ib-off{opacity:0}
+
+/* victory / defeat plate */
+#hud .ib-banner{position:absolute;left:0;right:0;top:40%;display:flex;justify-content:center;opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+#hud .ib-banner .ib-plate{padding:clamp(10px,1.1vw,18px) clamp(22px,2.6vw,48px) clamp(9px,.9vw,14px);text-align:center}
+#hud .ib-banner span{display:block;font:400 clamp(28px,4vw,64px)/1.1 "Iowan Old Style","Palatino Linotype",Georgia,serif;letter-spacing:.14em;color:var(--ib-nila)}
+#hud .ib-banner small{display:block;margin:.55em auto 0;font:500 clamp(12px,.95vw,15px)/1.3 system-ui,sans-serif;letter-spacing:.06em;color:var(--ib-ink);opacity:0;transition:opacity .5s ease 0s}
+#hud .ib-banner.ib-show small{opacity:1;transition-delay:1.5s}
+#hud .ib-hud.ib-ended .ib-banner span{color:var(--ib-nila)}
+#hud .ib-banner.ib-show{opacity:1;transform:none}
+#hud .ib-hud.ib-ended .ib-keys{opacity:0}
+
+/* comfort settings (O / pad Back); the fight is paused while it is open */
+#hud .ib-comfort{position:absolute;inset:0;display:grid;place-items:center;background:rgba(20,18,26,.3);pointer-events:auto}
+#hud .ib-comfort[hidden]{display:none}
+#hud .ib-comfort .ib-card{background:linear-gradient(180deg,#f7efdc 0%,var(--ib-paper) 55%,var(--ib-paper2) 100%);color:var(--ib-ink);
+  border:6px solid transparent;border-image:var(--ib-chip-border) 6 round;padding:16px 22px 12px;min-width:min(320px,86vw);max-width:90vw;box-shadow:0 8px 30px rgba(20,18,26,.35)}
+#hud .ib-comfort h2{margin:0 0 10px;font:400 22px/1.2 "Iowan Old Style","Palatino Linotype",Georgia,serif;letter-spacing:.08em;color:var(--ib-nila)}
+#hud .ib-comfort label{display:grid;grid-template-columns:6.5em 1fr 3.2em;align-items:center;gap:10px;margin:8px 0;font:14px/1.3 system-ui,sans-serif}
+#hud .ib-comfort input{width:100%;accent-color:var(--ib-cinnabar)}
+#hud .ib-comfort .ib-check input{width:auto;justify-self:start;transform:scale(1.25)}
+#hud .ib-comfort output{text-align:right;font-variant-numeric:tabular-nums}
+#hud .ib-comfort p{margin:12px 0 0;font:12px/1.45 system-ui,sans-serif;color:#4a4650;max-width:34em}
+
+@media (max-width:640px){
+  #hud .ib-keys{display:none}
+  #hud .ib-boss{width:min(68vw,420px)}
+}
