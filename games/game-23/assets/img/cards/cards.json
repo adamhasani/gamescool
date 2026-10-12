@@ -1,0 +1,115 @@
+{
+ "rain-tree": {
+  "file": "cards/rain-tree.webp",
+  "px": [
+   568,
+   428
+  ],
+  "size_m": [
+   18.58,
+   14.0
+  ],
+  "pivot": [
+   0.484,
+   0.986
+  ],
+  "mount": "ground"
+ },
+ "palm": {
+  "file": "cards/palm.webp",
+  "px": [
+   272,
+   530
+  ],
+  "size_m": [
+   6.16,
+   12.0
+  ],
+  "pivot": [
+   0.752,
+   0.989
+  ],
+  "mount": "ground"
+ },
+ "street-lamp": {
+  "file": "cards/street-lamp.webp",
+  "px": [
+   197,
+   500
+  ],
+  "size_m": [
+   4.73,
+   12.0
+  ],
+  "pivot": [
+   0.508,
+   0.988
+  ],
+  "mount": "ground"
+ },
+ "billboard": {
+  "file": "cards/billboard.webp",
+  "px": [
+   360,
+   451
+  ],
+  "size_m": [
+   10.38,
+   13.0
+  ],
+  "pivot": [
+   0.504,
+   0.984
+  ],
+  "mount": "ground"
+ },
+ "sign-kopi": {
+  "file": "cards/sign-kopi.webp",
+  "px": [
+   358,
+   190
+  ],
+  "size_m": [
+   2.2,
+   1.17
+  ],
+  "pivot": [
+   0.02,
+   0.5
+  ],
+  "mount": "wall"
+ },
+ "sign-bengkel": {
+  "file": "cards/sign-bengkel.webp",
+  "px": [
+   578,
+   183
+  ],
+  "size_m": [
+   3.6,
+   1.14
+  ],
+  "pivot": [
+   0.012,
+   0.5
+  ],
+  "mount": "wall"
+ },
+ "bus-shelter": {
+  "file": "cards/bus-shelter.webp",
+  "px": [
+   1024,
+   275
+  ],
+  "size_m": [
+   18.0,
+   4.83
+  ],
+  "pivot": [
+   0.5,
+   0.978
+  ],
+  "mount": "ground"
+ },
+ "_about": "2D cards cut from art/codex/b4-cards-ground/cards-street.png (GPT Image, transparent). size_m = [width, height] in metres at the intended real size; pivot = normalised [x, y] from the top-left: the base of the trunk/pole/platform for ground props, the wall bracket for signs. Lit from the left (low sun); mirror them only where the sun direction allows."
+}

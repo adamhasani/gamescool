@@ -1,0 +1,619 @@
+{
+ "_frame": "metres; nose -Z (the flying direction), up +Y, right +X; origin = the bounding-box centre (as drones.json): fly the origin along the air lane. Each GLB is one mesh, one material (base colour, normal, metal/rough, emissive; WebP, meshopt). yaw = extra rotation about +Y at load: 0 for every model here (pack_yaw = the turn the pack already gave the raw Tripo mesh); with the track frame: makeBasis(right, up, -tangent), as the racers; an oncoming drone turns 180 deg. size = the full bounds; box = the collision box (w, h, l; x, y, z = its centre in the model frame). rotor_kind + rotors as drones.json: hub centre on the duct rim (duct) or the motor-pod top (open), r = blur disc radius, spin +1 = counter-clockwise seen from above. No rotor discs in the models: open rotors have bare motor pods (no blades), ducts hold Tripo's static fan; draw the spinning blur over them (img/fx/rotor-blur, fan-blur, as src/drone/model.js). lights: kind nav = steady position lamps (side left = red on -x, side right = green on +x), kind strobe = white anti-collision flashes (aviation: about one flash per second, 50-100 ms; never steady); x, y, z = the lamp centre on the surface, w x h = its size in metres, face = the way it points (-x / +x / +y / -y / -z / +z), color = the lens texels' own colour. rule: true = no lens texels of that colour there (Tripo copied the one side the plate showed, or a strobe placed by geometry): draw its sprite. Nav lenses with rule false also glow in the emissive map (factor 1; a lens Tripo copied in the other side's colour is hue-shifted to its own side's colour, Tripo's shading kept: civil_anchors.py --recolor); strobes never do. lights are in glare order (src/traffic/view.js glows the first 4 only): the outermost red, the outermost green, the strobes, then the other lenses. shadow = whether the type casts the sun's shadow on tiers with shadows (only the air taxi: draw-call and triangle budget). Models: Higgsfield Tripo H3.1 (lanes A2 and W4-ART, round 3), anchors measured by tools/art/civil_anchors.py.",
+ "airtaxi": {
+  "name": "air taxi",
+  "file": "models/traffic-airtaxi.glb",
+  "yaw": 0,
+  "pack_yaw": 90,
+  "size": {
+   "w": 6.0,
+   "h": 2.315,
+   "l": 5.621
+  },
+  "box": {
+   "w": 6.0,
+   "h": 2.315,
+   "l": 5.621,
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "rotor_kind": "duct",
+  "rotors": [
+   {
+    "x": -2.205,
+    "y": -0.33,
+    "z": -1.456,
+    "r": 0.534,
+    "spin": 1
+   },
+   {
+    "x": 2.204,
+    "y": -0.242,
+    "z": -1.53,
+    "r": 0.51,
+    "spin": -1
+   },
+   {
+    "x": -1.971,
+    "y": 0.485,
+    "z": 1.109,
+    "r": 0.503,
+    "spin": -1
+   },
+   {
+    "x": 2.003,
+    "y": 0.552,
+    "z": 1.101,
+    "r": 0.525,
+    "spin": 1
+   }
+  ],
+  "lights": [
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -2.986,
+    "y": -0.449,
+    "z": -1.53,
+    "w": 0.114,
+    "h": 0.099,
+    "face": "-x",
+    "color": "#c50000"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 2.983,
+    "y": -0.331,
+    "z": -1.517,
+    "w": 0.109,
+    "h": 0.077,
+    "face": "+x",
+    "color": "#02aa2c"
+   },
+   {
+    "kind": "strobe",
+    "x": -0.012,
+    "y": 1.168,
+    "z": 2.63,
+    "w": 0.12,
+    "h": 0.12,
+    "face": "+y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "strobe",
+    "x": -0.029,
+    "y": 0.985,
+    "z": -0.116,
+    "w": 0.12,
+    "h": 0.12,
+    "face": "+y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -2.754,
+    "y": 0.386,
+    "z": 1.074,
+    "w": 0.098,
+    "h": 0.103,
+    "face": "-x",
+    "color": "#d40000"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 2.748,
+    "y": 0.46,
+    "z": 1.081,
+    "w": 0.104,
+    "h": 0.087,
+    "face": "+x",
+    "color": "#02bf31"
+   }
+  ],
+  "tris": 7328,
+  "kb": 216,
+  "source": "Higgsfield Tripo H3.1 job 117e46e5-fa0c-4803-a474-8621834758bf (face_limit 8000) from art/codex/r3-civil-fix/plate-airtaxi-34-fix.png (prompt: art/prompts/r3-civil.json plate-airtaxi-34, lamp fix art/prompts/r3-civil-fix.json)",
+  "shadow": true
+ },
+ "delivery": {
+  "name": "delivery drone",
+  "file": "models/traffic-delivery.glb",
+  "yaw": 0,
+  "pack_yaw": 270,
+  "size": {
+   "w": 0.9,
+   "h": 0.486,
+   "l": 0.82
+  },
+  "box": {
+   "w": 0.9,
+   "h": 0.486,
+   "l": 0.82,
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "rotor_kind": "open",
+  "rotors": [
+   {
+    "x": -0.386,
+    "y": 0.221,
+    "z": -0.346,
+    "r": 0.157,
+    "spin": 1
+   },
+   {
+    "x": 0.38,
+    "y": 0.2,
+    "z": -0.345,
+    "r": 0.157,
+    "spin": -1
+   },
+   {
+    "x": -0.385,
+    "y": 0.183,
+    "z": 0.345,
+    "r": 0.157,
+    "spin": -1
+   },
+   {
+    "x": 0.381,
+    "y": 0.183,
+    "z": 0.347,
+    "r": 0.157,
+    "spin": 1
+   }
+  ],
+  "lights": [
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -0.446,
+    "y": 0.107,
+    "z": 0.394,
+    "w": 0.033,
+    "h": 0.033,
+    "face": "-x",
+    "color": "#ca2a24"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 0.443,
+    "y": 0.102,
+    "z": 0.394,
+    "w": 0.03,
+    "h": 0.032,
+    "face": "+x",
+    "color": "#3eb340"
+   },
+   {
+    "kind": "strobe",
+    "x": 0.021,
+    "y": 0.253,
+    "z": -0.002,
+    "w": 0.025,
+    "h": 0.025,
+    "face": "+y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "strobe",
+    "x": -0.003,
+    "y": -0.203,
+    "z": -0.083,
+    "w": 0.025,
+    "h": 0.025,
+    "face": "-y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -0.444,
+    "y": 0.143,
+    "z": -0.393,
+    "w": 0.039,
+    "h": 0.038,
+    "face": "-x",
+    "color": "#c8241e"
+   }
+  ],
+  "tris": 2169,
+  "kb": 151,
+  "shadow": false,
+  "source": "Higgsfield Tripo H3.1 job 1d700ae3-52ad-43a4-9836-a178dd28b6e8 (face_limit 2500) from art/codex/r3-civil/plate-delivery-34.png (prompt: art/prompts/r3-civil.json plate-delivery-34)"
+ },
+ "news": {
+  "name": "news drone",
+  "file": "models/traffic-news.glb",
+  "yaw": 0,
+  "pack_yaw": 90,
+  "size": {
+   "w": 0.6,
+   "h": 0.333,
+   "l": 0.452
+  },
+  "box": {
+   "w": 0.6,
+   "h": 0.333,
+   "l": 0.452,
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "rotor_kind": "open",
+  "rotors": [
+   {
+    "x": -0.237,
+    "y": 0.051,
+    "z": -0.17,
+    "r": 0.096,
+    "spin": 1
+   },
+   {
+    "x": 0.264,
+    "y": 0.051,
+    "z": -0.114,
+    "r": 0.096,
+    "spin": -1
+   },
+   {
+    "x": -0.265,
+    "y": 0.119,
+    "z": 0.145,
+    "r": 0.096,
+    "spin": -1
+   },
+   {
+    "x": 0.236,
+    "y": 0.118,
+    "z": 0.187,
+    "r": 0.096,
+    "spin": 1
+   }
+  ],
+  "lights": [
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -0.28,
+    "y": 0.073,
+    "z": 0.103,
+    "w": 0.03,
+    "h": 0.03,
+    "face": "-z",
+    "color": "#b61e28"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 0.304,
+    "y": -0.0,
+    "z": -0.135,
+    "w": 0.03,
+    "h": 0.03,
+    "face": "+x",
+    "color": "#70e87c"
+   },
+   {
+    "kind": "strobe",
+    "x": -0.01,
+    "y": 0.126,
+    "z": 0.002,
+    "w": 0.025,
+    "h": 0.025,
+    "face": "+y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "strobe",
+    "x": 0.021,
+    "y": -0.044,
+    "z": -0.028,
+    "w": 0.025,
+    "h": 0.025,
+    "face": "-y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -0.247,
+    "y": 0.001,
+    "z": -0.217,
+    "w": 0.03,
+    "h": 0.03,
+    "face": "-z",
+    "color": "#b71a23"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 0.273,
+    "y": 0.071,
+    "z": 0.161,
+    "w": 0.03,
+    "h": 0.03,
+    "face": "+x",
+    "color": "#61e571"
+   }
+  ],
+  "tris": 1893,
+  "kb": 144,
+  "shadow": false,
+  "source": "Higgsfield Tripo H3.1 job f4f4d403-4e8e-41f0-ac50-56ea894b889a (face_limit 2000) from art/codex/r3-civil/plate-news-34-r2m.png (prompt: art/prompts/r3-civil.json plate-news-34-r2, mirrored so red is on the drone's left)"
+ },
+ "patrol": {
+  "name": "patrol drone",
+  "file": "models/traffic-patrol.glb",
+  "yaw": 0,
+  "pack_yaw": 90,
+  "size": {
+   "w": 1.5,
+   "h": 0.508,
+   "l": 1.294
+  },
+  "box": {
+   "w": 1.5,
+   "h": 0.508,
+   "l": 1.294,
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "rotor_kind": "open",
+  "rotors": [
+   {
+    "x": -0.656,
+    "y": 0.117,
+    "z": -0.403,
+    "r": 0.095,
+    "spin": 1
+   },
+   {
+    "x": 0.659,
+    "y": 0.083,
+    "z": -0.283,
+    "r": 0.095,
+    "spin": -1
+   },
+   {
+    "x": -0.658,
+    "y": 0.254,
+    "z": 0.435,
+    "r": 0.095,
+    "spin": -1
+   },
+   {
+    "x": 0.511,
+    "y": 0.245,
+    "z": 0.555,
+    "r": 0.095,
+    "spin": 1
+   }
+  ],
+  "lights": [
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -0.724,
+    "y": 0.015,
+    "z": -0.468,
+    "w": 0.033,
+    "h": 0.03,
+    "face": "-x",
+    "color": "#fc5b38"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 0.757,
+    "y": -0.014,
+    "z": -0.275,
+    "w": 0.047,
+    "h": 0.03,
+    "face": "+x",
+    "color": "#80fa77"
+   },
+   {
+    "kind": "strobe",
+    "x": 0.017,
+    "y": 0.247,
+    "z": 0.19,
+    "w": 0.03,
+    "h": 0.03,
+    "face": "+y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "strobe",
+    "x": 0.144,
+    "y": -0.128,
+    "z": -0.05,
+    "w": 0.03,
+    "h": 0.03,
+    "face": "-y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 0.601,
+    "y": 0.143,
+    "z": 0.517,
+    "w": 0.03,
+    "h": 0.03,
+    "face": "+x",
+    "color": "#6fd56a"
+   }
+  ],
+  "tris": 2782,
+  "kb": 173,
+  "shadow": false,
+  "source": "Higgsfield Tripo H3.1 job 1f781420-b913-446e-b544-85ae2b4e750b (face_limit 3000) from art/codex/r3-civil/plate-patrol-34m.png (prompt: art/prompts/r3-civil.json plate-patrol-34, mirrored so red is on the drone's left)"
+ },
+ "cargo": {
+  "name": "cargo octocopter",
+  "file": "models/traffic-cargo.glb",
+  "yaw": 0,
+  "pack_yaw": 0,
+  "size": {
+   "w": 3.0,
+   "h": 2.811,
+   "l": 3.035
+  },
+  "box": {
+   "w": 3.0,
+   "h": 2.811,
+   "l": 3.035,
+   "x": 0.0,
+   "y": 0.0,
+   "z": 0.0
+  },
+  "rotor_kind": "open",
+  "rotors": [
+   {
+    "x": -1.306,
+    "y": 1.265,
+    "z": -0.597,
+    "r": 0.3,
+    "spin": 1
+   },
+   {
+    "x": -0.448,
+    "y": 1.266,
+    "z": -1.337,
+    "r": 0.3,
+    "spin": -1
+   },
+   {
+    "x": 0.605,
+    "y": 1.266,
+    "z": -1.298,
+    "r": 0.3,
+    "spin": 1
+   },
+   {
+    "x": 1.34,
+    "y": 1.265,
+    "z": -0.409,
+    "r": 0.3,
+    "spin": -1
+   },
+   {
+    "x": -1.323,
+    "y": 1.266,
+    "z": 0.405,
+    "r": 0.3,
+    "spin": -1
+   },
+   {
+    "x": -0.581,
+    "y": 1.266,
+    "z": 1.296,
+    "r": 0.3,
+    "spin": 1
+   },
+   {
+    "x": 0.457,
+    "y": 1.265,
+    "z": 1.324,
+    "r": 0.3,
+    "spin": -1
+   },
+   {
+    "x": 1.317,
+    "y": 1.266,
+    "z": 0.594,
+    "r": 0.3,
+    "spin": 1
+   }
+  ],
+  "lights": [
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -1.473,
+    "y": 1.096,
+    "z": -0.622,
+    "w": 0.082,
+    "h": 0.081,
+    "face": "-x",
+    "color": "#c04038"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 1.501,
+    "y": 1.105,
+    "z": -0.413,
+    "w": 0.089,
+    "h": 0.075,
+    "face": "+x",
+    "color": "#35d64d"
+   },
+   {
+    "kind": "strobe",
+    "x": -0.032,
+    "y": 1.415,
+    "z": 0.022,
+    "w": 0.061,
+    "h": 0.061,
+    "face": "+y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "strobe",
+    "x": -0.349,
+    "y": -1.392,
+    "z": 0.07,
+    "w": 0.061,
+    "h": 0.061,
+    "face": "-y",
+    "color": "#ffffff",
+    "rule": true
+   },
+   {
+    "kind": "nav",
+    "side": "left",
+    "x": -1.336,
+    "y": 1.101,
+    "z": 0.238,
+    "w": 0.066,
+    "h": 0.077,
+    "face": "-z",
+    "color": "#c43226"
+   },
+   {
+    "kind": "nav",
+    "side": "right",
+    "x": 1.488,
+    "y": 1.104,
+    "z": 0.592,
+    "w": 0.079,
+    "h": 0.071,
+    "face": "+x",
+    "color": "#24c44c"
+   }
+  ],
+  "tris": 5559,
+  "kb": 340,
+  "shadow": false,
+  "source": "Higgsfield Tripo H3.1 job fec6732a-14ed-4300-8dc5-6e601e25989d (face_limit 6000) from art/codex/r3-civil/plate-cargo-34-r2.png (prompt: art/prompts/r3-civil.json plate-cargo-34-r2)"
+ }
+}

@@ -1,0 +1,212 @@
+[
+ {
+  "id": "teluk-gantry",
+  "file": "models/teluk-gantry.glb",
+  "w": 55.6,
+  "d": 9.24,
+  "h": 25.86,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 18518,
+  "kb": 896,
+  "inner": 46.0,
+  "clear": 14.36,
+  "girder": {
+   "lo": 14.36,
+   "hi": 20.7,
+   "z0": -2.4,
+   "z1": 4.12
+  },
+  "board": {
+   "x0": -9,
+   "x1": 9,
+   "lo": 17.04,
+   "hi": 22.96
+  },
+  "towers": {
+   "x": [
+    [
+     -27.77,
+     -22.98
+    ],
+    [
+     23.03,
+     27.79
+    ]
+   ],
+   "z": [
+    -2.66,
+    4.62
+   ]
+  },
+  "notes": "Start/finish gantry (Tripo H3.1 job 8a886b5d from art/codex/r5-plates/plate-gantry-34w.png, 18 credits). Metres at scale 1, origin = the footprint's bounding-box centre at the base (y = 0 on the sand; the racing surface is at y 0.5, so subtract 0.5 for heights over the road). x = across the track, y = up. Two galvanised scaffold towers in blue tarp, a box-truss girder with a TELUK banner and chequered ends, a timing board (00:00.0) on top, red-white flags. Clear opening between the towers 46.0 m (x -22.98..23.03): it spans Teluk's 44 m start straight (hw 22 at s = 0) with ~1 m to spare each side, so place it at scale 1. Girder underside 14.36 m, girder + bunting top 20.7 m (19.0-19.9 m away from the ends), the board 17.0-23.0 m over |x| < ~9 m, flag tips 25.9 m; girder depth z -2.40..+4.12 (the bounding box is centred on the towers and flags, not on the girder). front -z = the plate's face (the sharpest TELUK and 00:00.0): turn the gantry so -Z meets the racers on the run-in, i.e. city.js's span basis turned 180 deg: makeBasis(right.negate(), up, tan). Then the travel direction is +z and the girder slab runs a0 -2.40 .. a1 +4.12 along travel. With city.js's span basis unchanged (right, up, -tan) the run-in sees the +Z face: it also reads TELUK and 00:00.0, a little softer, with a faint ghost line under the banner. Both faces are fine for the finish camera. One mesh, one material (base 2048, ORM + normal 512, emissive 1024, WebP, meshopt high); cast shadows are optional (one instance). The timing board's orange digits glow: an emissive map made from the model's own texels (bright orange AND on the board's triangles, art/codex/r5-gantry/board_emis.py), emissive factor 1; raise emissiveIntensity for more bloom."
+ },
+ {
+  "id": "teluk-container",
+  "file": "models/teluk-container.glb",
+  "w": 2.44,
+  "d": 12.2,
+  "h": 3.199,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 704,
+  "kb": 177,
+  "notes": "Tripo H3.1 image-to-3D job 19bb9492-cb26-4f91-8c2f-f218fe147a6e from art/codex/r5-plates/plate-container-34.png (texture + geometry detailed, PBR, face_limit 2000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: yaw 90, length 12.2, x squashed to 2.44 (sx 0.78; Tripo made the box fat), --tris=300 --error=0.05 --ground --ntex=512 --meshopt=high (the simplifier stops at 704 tris on Tripo's UV seams; 1261 raw) so more boxes fit WORLD's container triangle cap. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). long axis on z: WORLD lays it along the course, tinted per instance."
+ },
+ {
+  "id": "teluk-container-stack",
+  "file": "models/teluk-container-stack.glb",
+  "w": 4.9,
+  "d": 12.2,
+  "h": 7.631,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 3287,
+  "kb": 375,
+  "notes": "Tripo H3.1 image-to-3D job 3195556c-9ad8-4d3e-bd35-f4dd662d2576 from art/codex/r5-plates/plate-container-stack-34-r2.png (texture + geometry detailed, PBR, face_limit 4000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: yaw 90, length 12.2, x squashed to 4.9 (sx 0.79), --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). 2 wide x 3 high block, long axis on z."
+ },
+ {
+  "id": "teluk-tower-frame",
+  "file": "models/teluk-tower-frame.glb",
+  "w": 76.6,
+  "d": 27.559,
+  "h": 50.552,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 12202,
+  "kb": 338,
+  "notes": "Tripo H3.1 image-to-3D job c2d87209-b2f1-42e5-8c57-a9f9525e569c from art/codex/r5-plates/plate-tower-frame-34-r2.png (texture + geometry detailed, PBR, face_limit 15000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: yaw 90, width 76.6, --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). the open ground floor runs along z (the course passes through it, -z face to the run-in): clear opening x -30.9..+30.9 (61.7 m), slab underside 8.1-9.6 m over the sand (Tripo tilted it ~1.5 m front to back), meeting the menara slab (7.6 m over the 0.5 m racing surface); 27.6 m deep along travel (the sim slab is 64 m deep)."
+ },
+ {
+  "id": "teluk-tetrapod-bank",
+  "file": "models/teluk-tetrapod-bank.glb",
+  "w": 14.0,
+  "d": 5.759,
+  "h": 3.701,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 5665,
+  "kb": 338,
+  "notes": "Tripo H3.1 image-to-3D job 3f866bb7-4773-46d3-804a-cf803ee56a59 from art/codex/r5-plates/plate-tetrapod-heap-34.png (texture + geometry detailed, PBR, face_limit 6000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: yaw 90, width 14, --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). a heap of tetrapods, long axis on x (WORLD turns armour so x runs along the sea wall); first armour entry, so it sets the wall pitch."
+ },
+ {
+  "id": "teluk-tetrapod",
+  "file": "models/teluk-tetrapod.glb",
+  "w": 3.96,
+  "d": 4.802,
+  "h": 3.999,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 985,
+  "kb": 420,
+  "notes": "Tripo H3.1 image-to-3D job e0936ce4-0418-4477-9c40-2f93dd62bbc6 from art/codex/r5-plates/plate-tetrapod-34-r2.png (texture + geometry detailed, PBR, face_limit 1000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: width 3.96 (4 m tall), --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). a single tetrapod."
+ },
+ {
+  "id": "teluk-sand-heap",
+  "file": "models/teluk-sand-heap.glb",
+  "w": 26.0,
+  "d": 19.721,
+  "h": 5.437,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 2816,
+  "kb": 274,
+  "notes": "Tripo H3.1 image-to-3D job 1d58139a-c6da-4a5a-8d2a-e80ed0615693 from art/codex/r5-plates/plate-sand-heap-34.png (texture + geometry detailed, PBR, face_limit 3000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: width 26, --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). a flat-topped sand stockpile."
+ },
+ {
+  "id": "teluk-barrier",
+  "file": "models/teluk-barrier.glb",
+  "w": 0.621,
+  "d": 2.0,
+  "h": 0.784,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 908,
+  "kb": 309,
+  "notes": "Tripo H3.1 image-to-3D job d5f81443-e274-4949-951c-6ead20390de6 from art/codex/r5-plates/plate-barrier-34.png (texture + geometry detailed, PBR, face_limit 1000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: length 2.0, --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). a jersey barrier block, long axis on z."
+ },
+ {
+  "id": "teluk-excavator",
+  "file": "models/teluk-excavator.glb",
+  "w": 3.759,
+  "d": 9.0,
+  "h": 6.068,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 7250,
+  "kb": 431,
+  "notes": "Tripo H3.1 image-to-3D job 0524efd4-0c96-4950-8424-bfdaff742aec from art/codex/r5-plates/plate-excavator-34.png (texture + geometry detailed, PBR, face_limit 8000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: length 9, --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). tracked excavator, boom up, long axis on z."
+ },
+ {
+  "id": "teluk-mixer-truck",
+  "file": "models/teluk-mixer-truck.glb",
+  "w": 2.5,
+  "d": 9.0,
+  "h": 4.323,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 7273,
+  "kb": 297,
+  "notes": "Tripo H3.1 image-to-3D job 583294f5-7b06-44d7-b5a2-49525cf09e13 from art/codex/r5-plates/plate-mixer-truck-34.png (texture + geometry detailed, PBR, face_limit 8000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: length 9, x squashed to 2.5 (sx 0.65), --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). cement mixer truck, long axis on z."
+ },
+ {
+  "id": "teluk-site-cabin",
+  "file": "models/teluk-site-cabin.glb",
+  "w": 2.5,
+  "d": 6.0,
+  "h": 2.601,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 3080,
+  "kb": 241,
+  "notes": "Tripo H3.1 image-to-3D job 30c3f0ce-aa9b-45f9-b9aa-6d6032ca6dfd from art/codex/r5-plates/plate-site-cabin-34.png (texture + geometry detailed, PBR, face_limit 4000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: length 6, x squashed to 2.5 (sx 0.78), --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). site office cabin with stairs, long axis on z."
+ },
+ {
+  "id": "teluk-light-tower",
+  "file": "models/teluk-light-tower.glb",
+  "w": 6.73,
+  "d": 4.492,
+  "h": 8.992,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 3527,
+  "kb": 284,
+  "notes": "Tripo H3.1 image-to-3D job 12e08198-f6ba-427c-82ea-55ceb61bd0b3 from art/codex/r5-plates/plate-light-tower-34.png (texture + geometry detailed, PBR, face_limit 4000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: width 6.73 (9 m tall), --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). mobile light tower on its trailer (x includes the drawbar)."
+ },
+ {
+  "id": "teluk-pipe-stack",
+  "file": "models/teluk-pipe-stack.glb",
+  "w": 4.6,
+  "d": 3.521,
+  "h": 3.243,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 3216,
+  "kb": 280,
+  "notes": "Tripo H3.1 image-to-3D job edb482c8-ea85-4c44-b96f-526dc884ea2f from art/codex/r5-plates/plate-pipe-stack-34-r2.png (texture + geometry detailed, PBR, face_limit 4000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: width 4.6, --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). six concrete pipes in a pyramid, pipes along x."
+ },
+ {
+  "id": "teluk-crane",
+  "file": "models/teluk-crane.glb",
+  "w": 8.367,
+  "d": 50.0,
+  "h": 49.744,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 11427,
+  "kb": 405,
+  "notes": "Tripo H3.1 image-to-3D job 661523e5-1f41-4bde-9338-38cbf8e55b8e from art/codex/r5-plates/plate-tower-crane-34.png (texture + geometry detailed, PBR, face_limit 12000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: length 50, --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). tower crane: lattice mast ~45 m, jib + counter-jib along z (50 m)."
+ },
+ {
+  "id": "teluk-flag",
+  "file": "models/teluk-flag.glb",
+  "w": 1.44,
+  "d": 2.081,
+  "h": 7.005,
+  "front": "-z",
+  "origin": "ground-centre",
+  "tris": 904,
+  "kb": 169,
+  "notes": "Tripo H3.1 image-to-3D job 57085ae5-abab-4e21-8f95-31ed4e1bce51 from art/codex/r5-plates/plate-flagpole-34.png (texture + geometry detailed, PBR, face_limit 1000, 18 credits, 11 Oct round 5 PROPS GO). Packed with tools/art/pack-hf.mjs: width 1.44 (7 m tall), --ground --ntex=512 --meshopt=high. Metres at scale 1, origin = the footprint centre at the base (y = 0 on the sand). feather flag on a base plate."
+ }
+]

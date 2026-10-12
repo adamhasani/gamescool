@@ -1,0 +1,164 @@
+{
+ "_frame": "Far-away cards for Teluk Flats (lane R5-ART, GPT Image through the Codex bridge, transparent background, alpha kept). Each card stands on its bottom edge: base_row = the lowest content row in pixels (the base line); the area above the content is transparent. size_m = a suggested world size {w, h} in metres from the real heights of what is drawn (Monas ~132 m, ship-to-shore cranes ~115 m with the boom up, tower cranes 40-70 m, a storey ~3.3 m). The skylines fade to zero alpha over 64 px at both ends so they can overlap in a ring. Haze is painted in; the world fog adds more. 'extra' = single cranes / frames and a container strip, made but NOT in public/ (lane WORLD's horizon.js takes every img/teluk/card-*.webp by name; they ship once it sizes cards from this file).",
+ "cards": [
+  {
+   "id": "skyline-monas",
+   "file": "img/teluk/skyline-monas.webp",
+   "px": [
+    1916,
+    472
+   ],
+   "base_row": 468,
+   "size_m": {
+    "w": 1220,
+    "h": 300
+   },
+   "where": "far horizon toward the city, 3-8 km out",
+   "notes": "dozens of towers, two under construction with cranes, Monas a little right of centre (x ~1270 px) in the haze"
+  },
+  {
+   "id": "skyline-port",
+   "file": "img/teluk/skyline-port.webp",
+   "px": [
+    1916,
+    385
+   ],
+   "base_row": 381,
+   "size_m": {
+    "w": 900,
+    "h": 180
+   },
+   "where": "far horizon along the waterfront / the bay's far shore",
+   "notes": "three container cranes, a container ship and a small white ship on the left, towers and port sheds across; no monument"
+  },
+  {
+   "id": "card-cranes-port",
+   "file": "img/teluk/card-cranes-port.webp",
+   "px": [
+    1618,
+    916
+   ],
+   "base_row": 912,
+   "size_m": {
+    "w": 203,
+    "h": 115
+   },
+   "where": "across the bay / beyond the flats (the target's left side)",
+   "notes": "three ship-to-shore container cranes, booms up, pale blue-grey; the gaps in the frames are transparent"
+  },
+  {
+   "id": "card-cranes-tower",
+   "file": "img/teluk/card-cranes-tower.webp",
+   "px": [
+    1635,
+    932
+   ],
+   "base_row": 924,
+   "size_m": {
+    "w": 123,
+    "h": 70
+   },
+   "where": "around the construction site, off the line",
+   "notes": "four tower cranes 40-70 m tall, orange-yellow and white, hooks out; the lattice gaps are transparent"
+  },
+  {
+   "id": "card-frames",
+   "file": "img/teluk/card-frames.webp",
+   "px": [
+    1269,
+    920
+   ],
+   "base_row": 917,
+   "size_m": {
+    "w": 114,
+    "h": 83
+   },
+   "where": "mid distance on the skyline side (the target's right), 1.5-3 km out",
+   "notes": "three unfinished concrete frames (20, 14 and 9 storeys), a tower crane on the tallest; open floors are partly see-through"
+  }
+ ],
+ "extra": [
+  {
+   "id": "card-crane-port-1..3",
+   "px": [
+    [
+     611,
+     915
+    ],
+    [
+     511,
+     914
+    ],
+    [
+     599,
+     906
+    ]
+   ],
+   "size_m_h": 115,
+   "notes": "the three port cranes one by one"
+  },
+  {
+   "id": "card-crane-tower-1..4",
+   "px": [
+    [
+     796,
+     839
+    ],
+    [
+     535,
+     593
+    ],
+    [
+     832,
+     931
+    ],
+    [
+     485,
+     539
+    ]
+   ],
+   "size_m_h": [
+    63,
+    45,
+    70,
+    40
+   ],
+   "notes": "the four tower cranes one by one (horizon.js would put each on every site spot today)"
+  },
+  {
+   "id": "card-frame-1..3",
+   "px": [
+    [
+     674,
+     920
+    ],
+    [
+     347,
+     573
+    ],
+    [
+     304,
+     374
+    ]
+   ],
+   "size_m_h": [
+    83,
+    52,
+    34
+   ],
+   "notes": "the three frames one by one"
+  },
+  {
+   "id": "card-containers",
+   "px": [
+    1916,
+    413
+   ],
+   "size_m": {
+    "w": 90,
+    "h": 19.5
+   },
+   "notes": "a far strip of 20 ft containers stacked 1-4 high with two yard cranes, ends fade; 19.5 m tall (the 40-80 m misc ring would show it 2-4x too big)"
+  }
+ ]
+}

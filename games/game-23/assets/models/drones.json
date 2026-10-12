@@ -1,0 +1,464 @@
+{
+ "_frame": "metres; nose -Z, up +Y, right +X; origin = bounding-box centre. rotors: hub centre on the motor-pod top (open) or the duct rim (duct), r = blur disc radius, spin +1 = counter-clockwise seen from above. thrusters: nozzle centre on the rear face, where engine glow and trail ribbons start. Models: Higgsfield Tripo H3.1 (lane HFD), anchors measured by tools/art/hf_anchors.py; no rotor-disc node (rotor_node null).",
+ "elang": {
+  "name": "ELANG",
+  "role": "balanced",
+  "file": "models/drone-elang.glb",
+  "rotor_node": null,
+  "bounds": {
+   "w": 1.999,
+   "h": 0.556,
+   "l": 1.996
+  },
+  "rotor_kind": "open",
+  "rotors": [
+   {
+    "x": -0.896,
+    "y": -0.03,
+    "z": -0.424,
+    "r": 0.26,
+    "spin": 1
+   },
+   {
+    "x": 0.897,
+    "y": -0.03,
+    "z": -0.425,
+    "r": 0.26,
+    "spin": -1
+   },
+   {
+    "x": -0.772,
+    "y": 0.278,
+    "z": 0.745,
+    "r": 0.26,
+    "spin": -1
+   },
+   {
+    "x": 0.773,
+    "y": 0.278,
+    "z": 0.744,
+    "r": 0.26,
+    "spin": 1
+   }
+  ],
+  "thrusters": [
+   {
+    "x": -0.104,
+    "y": -0.018,
+    "z": 0.983,
+    "r": 0.05,
+    "color": "#fc9335"
+   },
+   {
+    "x": 0.104,
+    "y": -0.018,
+    "z": 0.983,
+    "r": 0.05,
+    "color": "#fc9335"
+   }
+  ],
+  "lights": [
+   {
+    "x": -0.765,
+    "y": 0.177,
+    "z": 0.827,
+    "w": 0.2,
+    "h": 0.037,
+    "color": "#fb9233",
+    "kind": "tail"
+   },
+   {
+    "x": 0.781,
+    "y": 0.176,
+    "z": 0.831,
+    "w": 0.2,
+    "h": 0.034,
+    "color": "#fc9b3b",
+    "kind": "tail"
+   },
+   {
+    "x": 0.893,
+    "y": -0.135,
+    "z": -0.339,
+    "w": 0.195,
+    "h": 0.035,
+    "color": "#fb963b",
+    "kind": "tail"
+   },
+   {
+    "x": -0.9,
+    "y": -0.135,
+    "z": -0.339,
+    "w": 0.198,
+    "h": 0.035,
+    "color": "#fb9536",
+    "kind": "tail"
+   },
+   {
+    "x": -0.107,
+    "y": 0.119,
+    "z": 0.881,
+    "w": 0.07,
+    "h": 0.02,
+    "color": "#fdd560",
+    "kind": "tail"
+   },
+   {
+    "x": 0.105,
+    "y": 0.119,
+    "z": 0.885,
+    "w": 0.067,
+    "h": 0.02,
+    "color": "#fdda66",
+    "kind": "tail"
+   },
+   {
+    "kind": "under",
+    "x": 0.0,
+    "y": -0.278,
+    "z": 0.0,
+    "w": 0.7,
+    "h": 1.098,
+    "color": "#ffa040"
+   }
+  ],
+  "tris": 15999,
+  "source": "Higgsfield Tripo H3.1 job f7a97d35-f27b-4a5a-b692-c250571ccea1 from art/codex/hf-r1/plate-elang-34-norotor.png"
+ },
+ "kilat": {
+  "name": "KILAT",
+  "role": "fastest, fragile",
+  "file": "models/drone-kilat.glb",
+  "rotor_node": null,
+  "bounds": {
+   "w": 1.699,
+   "h": 0.633,
+   "l": 1.854
+  },
+  "rotor_kind": "duct",
+  "rotors": [
+   {
+    "x": -0.594,
+    "y": -0.134,
+    "z": 0.108,
+    "r": 0.219,
+    "spin": 1
+   },
+   {
+    "x": 0.603,
+    "y": -0.132,
+    "z": -0.017,
+    "r": 0.221,
+    "spin": -1
+   }
+  ],
+  "thrusters": [
+   {
+    "x": -0.207,
+    "y": -0.015,
+    "z": 0.909,
+    "r": 0.066,
+    "color": "#2f86f2"
+   },
+   {
+    "x": 0.251,
+    "y": -0.003,
+    "z": 0.79,
+    "r": 0.066,
+    "color": "#2f86f2"
+   }
+  ],
+  "lights": [
+   {
+    "x": -0.607,
+    "y": -0.118,
+    "z": 0.268,
+    "w": 0.436,
+    "h": 0.02,
+    "color": "#287ddf",
+    "kind": "tail"
+   },
+   {
+    "x": 0.614,
+    "y": -0.116,
+    "z": 0.135,
+    "w": 0.436,
+    "h": 0.02,
+    "color": "#2780ec",
+    "kind": "tail"
+   },
+   {
+    "x": 0.342,
+    "y": -0.231,
+    "z": 0.127,
+    "w": 0.121,
+    "h": 0.02,
+    "color": "#528ae3",
+    "kind": "tail"
+   },
+   {
+    "x": -0.331,
+    "y": -0.233,
+    "z": 0.175,
+    "w": 0.091,
+    "h": 0.022,
+    "color": "#3a71d3",
+    "kind": "tail"
+   },
+   {
+    "x": -0.332,
+    "y": 0.085,
+    "z": 0.462,
+    "w": 0.058,
+    "h": 0.04,
+    "color": "#89acdd",
+    "kind": "tail"
+   },
+   {
+    "x": 0.33,
+    "y": 0.068,
+    "z": 0.381,
+    "w": 0.058,
+    "h": 0.04,
+    "color": "#89acdd",
+    "kind": "tail"
+   },
+   {
+    "kind": "under",
+    "x": 0.0,
+    "y": -0.317,
+    "z": 0.0,
+    "w": 0.595,
+    "h": 1.02,
+    "color": "#4d8dff"
+   }
+  ],
+  "tris": 15998,
+  "source": "Higgsfield Tripo H3.1 job 7167517d-7d9e-44c3-aa86-e41751a7a9f0 from art/codex/hf-r1/plate-kilat-34.png"
+ },
+ "badak": {
+  "name": "BADAK",
+  "role": "heavy armour",
+  "file": "models/drone-badak.glb",
+  "rotor_node": null,
+  "bounds": {
+   "w": 2.399,
+   "h": 0.913,
+   "l": 3.158
+  },
+  "rotor_kind": "duct",
+  "rotors": [
+   {
+    "x": -0.752,
+    "y": 0.049,
+    "z": -0.525,
+    "r": 0.253,
+    "spin": 1
+   },
+   {
+    "x": 0.731,
+    "y": 0.048,
+    "z": -0.525,
+    "r": 0.26,
+    "spin": -1
+   },
+   {
+    "x": -0.777,
+    "y": 0.136,
+    "z": 0.685,
+    "r": 0.265,
+    "spin": -1
+   },
+   {
+    "x": 0.753,
+    "y": 0.114,
+    "z": 0.636,
+    "r": 0.276,
+    "spin": 1
+   }
+  ],
+  "thrusters": [
+   {
+    "x": -0.34,
+    "y": 0.018,
+    "z": 1.558,
+    "r": 0.089,
+    "color": "#f7791d"
+   },
+   {
+    "x": 0.333,
+    "y": 0.018,
+    "z": 1.558,
+    "r": 0.089,
+    "color": "#f7791d"
+   }
+  ],
+  "lights": [
+   {
+    "x": 0.729,
+    "y": -0.062,
+    "z": 1.303,
+    "w": 0.103,
+    "h": 0.027,
+    "color": "#efc176",
+    "kind": "tail"
+   },
+   {
+    "x": -0.745,
+    "y": -0.07,
+    "z": 1.304,
+    "w": 0.104,
+    "h": 0.027,
+    "color": "#f3f7c2",
+    "kind": "tail"
+   },
+   {
+    "x": -0.746,
+    "y": 0.13,
+    "z": 1.24,
+    "w": 0.049,
+    "h": 0.02,
+    "color": "#fcfdd1",
+    "kind": "tail"
+   },
+   {
+    "x": 0.723,
+    "y": 0.127,
+    "z": 1.25,
+    "w": 0.077,
+    "h": 0.02,
+    "color": "#f6761b",
+    "kind": "tail"
+   },
+   {
+    "x": -0.344,
+    "y": 0.199,
+    "z": 1.513,
+    "w": 0.046,
+    "h": 0.02,
+    "color": "#fbfbda",
+    "kind": "tail"
+   },
+   {
+    "x": 0.333,
+    "y": 0.187,
+    "z": 1.465,
+    "w": 0.046,
+    "h": 0.02,
+    "color": "#fbfbda",
+    "kind": "tail"
+   },
+   {
+    "kind": "under",
+    "x": 0.0,
+    "y": -0.457,
+    "z": 0.0,
+    "w": 0.84,
+    "h": 1.737,
+    "color": "#ff9a30"
+   }
+  ],
+  "tris": 15999,
+  "source": "Higgsfield Tripo H3.1 job 46c5bfdd-2b1a-4d9d-8af9-3be08a5a8343 from art/codex/hf-r1/plate-badak-34.png"
+ },
+ "bayang": {
+  "name": "BAYANG",
+  "role": "agile, best laser cooling",
+  "file": "models/drone-bayang.glb",
+  "rotor_node": null,
+  "bounds": {
+   "w": 1.999,
+   "h": 0.446,
+   "l": 2.191
+  },
+  "rotor_kind": "open",
+  "rotors": [
+   {
+    "x": -0.887,
+    "y": 0.108,
+    "z": -0.564,
+    "r": 0.276,
+    "spin": 1
+   },
+   {
+    "x": 0.888,
+    "y": 0.108,
+    "z": -0.564,
+    "r": 0.276,
+    "spin": -1
+   },
+   {
+    "x": -0.812,
+    "y": 0.223,
+    "z": 0.754,
+    "r": 0.276,
+    "spin": -1
+   },
+   {
+    "x": 0.813,
+    "y": 0.223,
+    "z": 0.754,
+    "r": 0.276,
+    "spin": 1
+   }
+  ],
+  "thrusters": [
+   {
+    "x": -0.006,
+    "y": 0.064,
+    "z": 1.094,
+    "r": 0.06,
+    "color": "#5fe6f2"
+   }
+  ],
+  "lights": [
+   {
+    "x": -0.274,
+    "y": 0.046,
+    "z": 0.635,
+    "w": 0.112,
+    "h": 0.083,
+    "color": "#76e3ef",
+    "kind": "tail"
+   },
+   {
+    "x": 0.248,
+    "y": 0.14,
+    "z": 0.394,
+    "w": 0.115,
+    "h": 0.024,
+    "color": "#68f0fc",
+    "kind": "tail"
+   },
+   {
+    "x": 0.271,
+    "y": 0.039,
+    "z": 0.632,
+    "w": 0.106,
+    "h": 0.086,
+    "color": "#6de7f3",
+    "kind": "tail"
+   },
+   {
+    "x": -0.257,
+    "y": 0.14,
+    "z": 0.393,
+    "w": 0.111,
+    "h": 0.024,
+    "color": "#6ae2f3",
+    "kind": "tail"
+   },
+   {
+    "kind": "under",
+    "x": 0.0,
+    "y": -0.223,
+    "z": 0.0,
+    "w": 0.7,
+    "h": 1.205,
+    "color": "#35e0f0"
+   }
+  ],
+  "tris": 15995,
+  "source": "Higgsfield Tripo H3.1 job 6bb298e7-cbf6-4b95-b38d-a839962f9ba3 from art/codex/hf-r1/plate-bayang-34-norotor.png"
+ }
+}

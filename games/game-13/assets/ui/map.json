@@ -1,0 +1,23 @@
+{
+ "w": 2688,
+ "h": 1520,
+ "places": {
+  "route9": {
+   "x": 504,
+   "y": 630
+  },
+  "maple": {
+   "x": 1159,
+   "y": 580
+  },
+  "main": {
+   "x": 1705,
+   "y": 655
+  },
+  "depot": {
+   "x": 2234,
+   "y": 487
+  }
+ },
+ "notes": "pixel centres of the four areas on ui/map.webp (no text on the map; labels are drawn by the UI)"
+}

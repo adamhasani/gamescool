@@ -1,0 +1,52 @@
+[
+ {
+  "id": "vantis",
+  "label": "vantis.sh",
+  "url": "https://vantis.sh/",
+  "baked": "levels/vantis/",
+  "letters": 3303,
+  "boxes": 66,
+  "host": "vantis.sh",
+  "thumb": "levels/thumbs/vantis.webp"
+ },
+ {
+  "id": "startup",
+  "label": "1001startup.id",
+  "url": "https://1001startup.id/",
+  "baked": "levels/startup/",
+  "letters": 4388,
+  "boxes": 786,
+  "host": "1001startup.id",
+  "thumb": "levels/thumbs/startup.webp"
+ },
+ {
+  "id": "example",
+  "label": "example.com",
+  "url": "https://example.com/",
+  "baked": "levels/example/",
+  "letters": 141,
+  "boxes": 1,
+  "host": "example.com",
+  "thumb": "levels/thumbs/example.webp"
+ },
+ {
+  "id": "wiki",
+  "label": "Wikipedia",
+  "url": "https://en.wikipedia.org/wiki/Demolition",
+  "baked": "levels/wiki/",
+  "letters": 5679,
+  "boxes": 66,
+  "host": "en.wikipedia.org",
+  "thumb": "levels/thumbs/wiki.webp"
+ },
+ {
+  "id": "hn",
+  "label": "Hacker News",
+  "url": "https://news.ycombinator.com/",
+  "baked": "levels/hn/",
+  "letters": 3037,
+  "boxes": 34,
+  "host": "news.ycombinator.com",
+  "thumb": "levels/thumbs/hn.webp"
+ }
+]

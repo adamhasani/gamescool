@@ -1,0 +1,323 @@
+/* The shell (UI lane): full-screen canvas at its own aspect (never stretched), the HUD root over it, and the poster
+   (frame 0) until the live group is drawn. Palette and type from DESIGN_LOCK §10. The HUD's own rules are in
+   src/ui/ui.css (build.mjs appends them to this file). */
+@font-face { font-family: 'Marcellus SC'; src: url('fonts/marcellus-sc.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url('fonts/barlow-condensed-600.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+:root {
+  --teak: #3a2418; --teak-2: #5a3a26; --bronze: #b07a3a; --bronze-2: #d9a35a; --vermilion: #b8322a;
+  --cream: #efe2c2; --ink: #2a1d14; --tap: #f0b34a;
+  --display: 'Marcellus SC', 'Times New Roman', serif;
+  --text: 'Barlow Condensed', 'Arial Narrow', sans-serif-condensed, sans-serif;
+  color-scheme: dark;
+}
+html, body { margin: 0; height: 100%; background: var(--ink); color: var(--cream); overflow: hidden;
+  overscroll-behavior: none; touch-action: none; -webkit-user-select: none; user-select: none;
+  -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%;
+  font-family: var(--text); font-weight: 600; }
+#view { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; touch-action: none; }
+#ui { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+
+/* ---- poster: frame 0 at the same crop as the host page's, gone once the live group is drawn ---- */
+#poster { position: fixed; inset: 0; z-index: 20; background: var(--ink); pointer-events: none;
+  transition: opacity .6s ease, visibility 0s linear .6s; }
+body.ready #poster { opacity: 0; visibility: hidden; }
+#poster .poster-art { position: absolute; inset: 0; background-size: cover; background-position: center; }
+#poster .poster-lockup { position: absolute; left: 0; right: 0; top: max(14vh, calc(env(safe-area-inset-top) + 48px));
+  padding: 0 24px; text-align: center; text-shadow: 0 2px 0 rgba(20, 12, 6, .65), 0 0 18px rgba(20, 12, 6, .55); }
+#poster .poster-title { margin: 0; font: 400 clamp(34px, 9vw, 64px)/1.05 var(--display); letter-spacing: .04em; color: var(--cream); }
+#poster .poster-line { margin: 12px auto 0; max-width: 30em; font: 600 clamp(17px, 4.6vw, 22px)/1.25 var(--text); letter-spacing: .02em; color: var(--cream); }
+#poster .poster-note { margin: 18px auto 0; max-width: 26em; font: 600 16px/1.3 var(--text); color: var(--bronze-2); }
+#poster .poster-strand { position: absolute; left: 12%; right: 12%; bottom: max(9vh, calc(env(safe-area-inset-bottom) + 40px)); height: 3px; overflow: hidden; }
+#poster .poster-strand i { position: absolute; inset: 0; background: var(--bronze); transform-origin: 0 50%; animation: strand 9s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes strand { from { transform: scaleX(.04); } to { transform: scaleX(.94); } }
+@media (prefers-reduced-motion: reduce) { #poster .poster-strand i { animation-duration: 0s; } }
+
+/* HUD (UI lane), appended to web/base.css by build.mjs. v3 revamp: the reference's layout (codex-jobs/g19/revamp/hud.md)
+   in our skin. Every box is placed on a layout rect from src/ui/layout.ts; the look comes from painted slots
+   (src/ui/art.ts: border-image 9-slices and icons from ART-2D). A slot without its art stays empty: no gradients, no
+   rounded web cards, no pill buttons. Bar fills keep a flat colour so the numbers they carry stay readable until their
+   painted fills land. One interaction colour: --tap. Modes: .m-desktop, .m-portrait, .m-landscape (phones). */
+.hud { position: absolute; inset: 0; --s: 1; --rowh: 32px; --hit: 44px;
+  --shadow: 0 1px 0 rgba(20, 12, 6, .95), 0 0 5px rgba(20, 12, 6, .85), 0 0 12px rgba(20, 12, 6, .5);
+  --shadow-display: 0 1px 0 rgba(20, 12, 6, 1), 0 0 3px rgba(20, 12, 6, 1), 0 0 8px rgba(20, 12, 6, .9), 0 0 16px rgba(20, 12, 6, .6);
+  color: var(--cream); text-shadow: var(--shadow); font: 600 16px/1.15 var(--text); }
+.hud > * { position: absolute; box-sizing: border-box; pointer-events: none; }
+.hud [hidden] { display: none !important; }
+.hud .hit { pointer-events: auto; appearance: none; -webkit-appearance: none; background-color: transparent; border: 0; border-radius: 0;
+  margin: 0; padding: 0; color: inherit; font: inherit; text-shadow: inherit; cursor: pointer; touch-action: manipulation;
+  transition: transform 70ms ease-out, filter 70ms ease-out, opacity 120ms; }
+.hud .hit:focus { outline: none; }
+.hud .hit:focus-visible { outline: 2px solid var(--tap); outline-offset: 2px; }
+.hud .hit.is-pressed { transform: translateY(1px) scale(.96); filter: brightness(1.2); }
+.hud .hit.is-fired { filter: brightness(1.35) drop-shadow(0 0 8px var(--tap)); }
+.hud .hit.is-refused { animation: refuse .22s linear; }
+.hud .is-off { opacity: .45; }
+.hud .is-lit { animation: tapme 1.1s ease-in-out infinite; }
+@keyframes tapme { 0%, 100% { filter: drop-shadow(0 0 0 rgba(240, 179, 74, 0)); } 50% { filter: drop-shadow(0 0 9px rgba(240, 179, 74, .95)); } }
+@keyframes refuse { 0%, 100% { translate: 0 0; } 25% { translate: -3px 0; } 75% { translate: 3px 0; } }
+.hud .ico { display: inline-block; flex: none; width: 1.1em; height: 1.1em; vertical-align: -.18em; }
+.hud .has-art { text-shadow: none; }
+/* a label kept for screen readers once its painted icon is in (never drawn) */
+.hud .slot-icon.has-art ~ .slot-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+/* ---- party: rows on desktop (ring portrait, name, HP with numbers, mana, XP), cards on phones ---- */
+.pty { --ring: 60px; --pad: 5px; display: grid; grid-template-columns: var(--ring) minmax(0, 1fr); grid-auto-rows: min-content;
+  align-content: center; column-gap: 10px; row-gap: 2px; text-align: left; }
+.hud .pty { padding-left: var(--pad); }
+.pty-ring { grid-column: 1; grid-row: 1 / span 4; position: relative; width: var(--ring); height: var(--ring); align-self: center; }
+/* the portrait painting, cut round inside the bronze ring's face (ui.badge.level: the face is 68% of the ring) */
+.pty-face { position: absolute; left: 14%; top: 14%; width: 72%; height: 72%; border-radius: 50%; overflow: hidden;
+  background-size: cover !important; background-position: 50% 18% !important; }
+.pty-name { grid-column: 2; font: 600 16px/1.1 var(--text); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+.pty .bar { position: relative; grid-column: 2; width: 100%; }
+.pty-hp { height: 18px; }
+.pty-mp { height: 5px; }
+.pty-xp { height: 5px; }
+.pty-hpn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 600 14px/1 var(--text);
+  font-variant-numeric: tabular-nums; letter-spacing: .02em; color: var(--cream); text-shadow: var(--shadow); }
+.pty-hp .bar-fill.no-art { background: #3fae7a; }
+/* ENGINE (lead decision 7 Oct 14:19): party HP is jade green over the teak track (the painted red fill turned by a filter,
+   its texture kept), amber under 50 %, red (as painted) under 25 %; foe and boss bars stay red */
+.pty-hp .bar-fill.has-art { filter: hue-rotate(148deg) saturate(.78) brightness(1.18); }
+.pty.hp-mid .pty-hp .bar-fill.has-art { filter: hue-rotate(34deg) saturate(1.05) brightness(1.25); }
+.pty.hp-mid .pty-hp .bar-fill.no-art { background: #d99a2b; }
+.pty.hp-crit .pty-hp .bar-fill.has-art { filter: none; }
+.pty.hp-crit .pty-hp .bar-fill.no-art { background: #b8322a; }
+.pty-mp .bar-fill.no-art { background: #4a7fc0; }
+.pty-xp .bar-fill.no-art { background: var(--bronze-2); }
+/* level ring at the portrait ring's lower left, as the reference's badge: inside the row, clear of the round face but a
+   few px (the number alone inside the painted ring; "LV n" without it) */
+.pty-lv { --lv: max(22px, calc(var(--ring) * .4)); --dy: .36; position: absolute; left: 0; top: calc(50% + var(--ring) * var(--dy) - var(--lv) / 2); font: 600 14px/1 var(--text); white-space: nowrap; }
+.pty-lv.has-art { width: var(--lv); height: var(--lv); display: flex; align-items: center; justify-content: center; color: var(--cream); letter-spacing: 0; }
+.pty-lv.is-wide { --lv: 30px; }
+.pty-plus { z-index: 1; }
+.pty-plus { position: absolute; left: calc(var(--pad) + var(--ring) - 16px); top: calc(50% - var(--ring) / 2 - 3px); width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center; font: 600 20px/.8 var(--text); color: var(--tap); }
+.pty-plus.has-art { color: transparent; }
+.pty.is-lit { animation: none; }
+.pty.is-lit .pty-ring { animation: tapme 1.1s ease-in-out infinite; }
+.pty.is-down .pty-ring, .pty.is-down .pty-name, .pty.is-down .pty-mp, .pty.is-down .pty-xp { filter: grayscale(.95) brightness(.6); }
+.pty.is-down .pty-hp .bar-fill { opacity: 0; }
+.pty.is-flash .pty-ring { animation: levelflash .9s ease-out; }
+@keyframes levelflash { 0% { filter: brightness(2.2) drop-shadow(0 0 12px var(--tap)); } 100% { filter: none; } }
+/* phones: compact cards, bars only */
+.hud:not(.m-desktop) .pty { --pad: 4px; column-gap: 4px; row-gap: 4px; }
+.hud:not(.m-desktop) .pty-name { font-size: 14px; letter-spacing: 0; }
+.hud:not(.m-desktop) .pty-hp { height: 8px; }
+.hud:not(.m-desktop) .pty-mp { height: 4px; }
+.hud:not(.m-desktop) .pty-xp, .hud:not(.m-desktop) .pty-hpn { display: none; }
+.hud:not(.m-desktop) .pty-lv { --lv: 21px; --dy: .48; }
+.hud:not(.m-desktop) .pty-lv.is-wide { --lv: 27px; }
+.hud:not(.m-desktop) .pty-plus { width: 16px; height: 16px; left: calc(var(--pad) + var(--ring) - 12px); font-size: 16px; }
+
+/* ---- place block: where the party is, the status line, its sub-line ---- */
+.hud-place { display: flex; flex-direction: column; gap: 1px; }
+.hud-place[data-align="right"] { align-items: flex-end; text-align: right; }
+.pl-name { max-width: 100%; font: 400 21px/1.15 var(--display); letter-spacing: .05em; color: var(--bronze-2); white-space: nowrap; overflow: hidden;
+  text-shadow: var(--shadow-display); }
+.hud:not(.m-desktop) .pl-name { font-size: 17px; }
+.st-main { max-width: 100%; font: 600 20px/1.05 var(--text); letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; overflow: hidden; }
+.st-main.is-wrap { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.st-main.is-wrap + .st-sub { display: none; }
+.st-sub { max-width: 100%; font: 600 15px/1.1 var(--text); letter-spacing: .03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--tap); }
+.st-sub:empty { display: none; }
+
+/* ---- minimap: the area's map in the bronze ring; its pips; the speed chip ---- */
+.mm-disc { position: absolute; left: 50%; top: 50%; width: var(--d); height: var(--d); transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden; }
+.mm-layer { position: absolute; inset: 0; }
+.mm-party, .mm-pin { position: absolute; left: 0; top: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px; }
+.mm-party { width: 14px; height: 14px; margin: -7px 0 0 -7px; z-index: 1; }
+.mm-pin.is-done { opacity: .5; filter: grayscale(.7); }
+.pip-icon { position: absolute; inset: 17%; }
+.pip.is-on .pip-icon, .stab.is-on .pip-icon { filter: brightness(1.15); }
+.speedchip { display: flex; align-items: center; justify-content: center; gap: 4px; font: 600 16px/1 var(--text); font-variant-numeric: tabular-nums; }
+.speedchip .ico { width: 18px; height: 18px; }
+
+/* ---- counters, quest tracker, the column's head, AUTO-BUY, ALL ---- */
+.ctr { display: flex; align-items: center; gap: 12px; font: 600 16px/1 var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ctr[data-align="right"] { justify-content: space-between; }
+.ctr-i { display: inline-flex; align-items: center; gap: 4px; }
+.ctr-i .ico { width: 20px; height: 20px; vertical-align: 0; }
+.ctr-l { font: 600 14px/1 var(--text); letter-spacing: .06em; opacity: .85; }
+.hud:not(.m-desktop) .ctr { gap: 10px; font-size: 15px; }
+.quest { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; row-gap: 4px; }
+.q-name { font: 400 17px/1.1 var(--display); letter-spacing: .04em; color: var(--bronze-2); white-space: nowrap; overflow: hidden; text-shadow: var(--shadow-display); }
+.q-n { font: 600 15px/1 var(--text); font-variant-numeric: tabular-nums; opacity: .9; }
+.q-goal { grid-column: 1 / span 2; font: 600 15px/1.15 var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.q-goal::before { content: '! '; color: var(--tap); }
+.colhead { display: flex; align-items: center; gap: 6px; padding-right: var(--autow, 0px); font: 600 14px/1 var(--text); letter-spacing: .06em; white-space: nowrap; }
+.ch-l { opacity: .8; }
+.ch-bl { margin-left: auto; }
+.ch-xp, .ch-b { font-size: 16px; font-variant-numeric: tabular-nums; }
+.ch-b { color: var(--bronze-2); }
+.autobuy { display: flex; align-items: center; justify-content: center; gap: 6px; font: 600 14px/1 var(--text); letter-spacing: .04em; white-space: nowrap; }
+.autobuy.is-on { color: var(--tap); }
+.ab-dot { flex: none; width: 14px; height: 14px; }
+.hud:not(.m-desktop) .autobuy { flex-direction: column; gap: 2px; }
+.allbtn { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font: 600 14px/1 var(--text); letter-spacing: .05em; }
+.allbtn .ico { width: 20px; height: 20px; }
+.allbtn.is-on { color: var(--tap); }
+
+/* ---- the upgrade rows: teak while out of reach, palm-leaf and pulsing when one tap buys ---- */
+.hud .crow { display: flex; align-items: center; gap: 7px; padding: 0 8px 0 4px; overflow: hidden; text-align: left;
+  font: 600 14px/1 var(--text); letter-spacing: .03em; text-transform: uppercase; color: var(--cream); }
+.rows > .crow { position: absolute; }
+.crow-fill { position: absolute; left: 2px; right: 2px; bottom: 1px; height: 3px; transform-origin: 0 50%; opacity: .85; }
+.crow-fill.no-art { background: var(--bronze-2); }
+.crow.is-lit .crow-fill { opacity: 0; }
+.crow-icon { flex: none; width: 24px; height: 24px; }
+.crow-icon.is-portrait { background-size: cover !important; background-position: 50% 20% !important; }
+.crow-label { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; }
+.crow-price { flex: none; white-space: nowrap; font-variant-numeric: tabular-nums; letter-spacing: .02em; opacity: .92; }
+.crow-cur { flex: none; width: 18px; height: 18px; margin-left: -4px; }
+.crow-cur:not(.has-art), .crow-cur.is-none { display: none; }
+.crow.is-lit { color: var(--ink); text-shadow: none; }
+.crow.is-lit .crow-price { opacity: 1; }
+.crow:not(.is-lit) .crow-label { opacity: .9; }
+.crow.is-town .crow-price { color: var(--tap); }
+.crow.is-title .crow-price { color: var(--bronze-2); }
+.hud:not(.m-desktop) .crow { font-size: 15px; gap: 8px; padding: 0 10px 0 6px; }
+.hud:not(.m-desktop) .crow-icon { width: 28px; height: 28px; }
+
+/* ---- skill bar: 3 scrolls, 2 tonics (keys on desktop) ---- */
+.slot-icon { position: absolute; inset: 15%; }
+.slot-label { position: relative; font: 600 14px/1 var(--text); }
+.slot-key { position: absolute; right: 6px; top: 4px; font: 600 14px/1 var(--text); color: var(--cream); text-shadow: var(--shadow); }
+.slot-n { position: absolute; right: 5px; bottom: 3px; font: 600 16px/1 var(--text); font-variant-numeric: tabular-nums; color: var(--cream); text-shadow: var(--shadow); }
+.hud:not(.is-fine) .slot-key { display: none; }
+.slot.is-locked .slot-icon { opacity: .6; }
+
+/* ---- the big medallion (OPEN, SET OUT, ATTACK, SEAL): above an open sheet so a waiting chest is never hidden ---- */
+.big { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; z-index: 3; }
+.big-ring { position: absolute; inset: -10%; }
+.big-label { position: relative; font: 400 calc(18px * var(--s)) /1 var(--display); letter-spacing: .05em; }
+.big-secs { position: relative; font: 600 16px/1 var(--text); font-variant-numeric: tabular-nums; color: var(--tap); }
+.big { animation: tapme 1.1s ease-in-out infinite; }
+.big.is-urgent { animation-duration: .5s; }
+
+/* ---- boss plate and bar, banner, log lines, AUTO-BATTLE chip ---- */
+.boss { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.boss-name { font: 400 calc(18px * var(--s)) /1.1 var(--display); letter-spacing: .05em; text-align: center; white-space: nowrap; padding: 0 12px; }
+.bar { position: absolute; overflow: hidden; }
+.bar.no-art { background: rgba(20, 12, 6, .6); }
+.bar-fill, .bar-ghost { position: absolute; inset: 0; transform-origin: 0 50%; }
+.bar-fill.no-art { background: var(--vermilion); }
+.bar-boss { position: relative; width: 100%; height: 10px; flex: none; }
+.bar-boss .bar-ghost { background: var(--cream); opacity: .55; transition: transform .6s ease-in .35s; }
+.banner { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6px 22px; }
+.banner.has-art { padding: 0 26px; color: var(--ink); }   /* the plate's painted edges (16 / 24 px) hold the title and its line */
+.banner.is-in { animation: bannerin .45s cubic-bezier(.2, .9, .3, 1.2); }
+@keyframes bannerin { from { opacity: 0; transform: scale(.86); } to { opacity: 1; transform: none; } }
+.banner-a { flex: none; font: 400 30px/1.1 var(--display); letter-spacing: .06em; max-width: 100%; white-space: nowrap; }
+.banner-b { font: 400 18px/1.15 var(--display); letter-spacing: .04em; }
+.banner-c { font: 600 16px/1.2 var(--text); color: var(--vermilion); }
+/* ENGINE (lead review 2, item 5): phones show the banner in the top band, a shorter plate */
+.hud.m-portrait .banner-a { font-size: 26px; }
+.hud.m-portrait .banner-b { font-size: 16px; }
+.hud.m-portrait .banner-c { font-size: 14px; }
+.hud.m-landscape .banner { padding: 0 14px; }
+.hud.m-landscape .banner-a { font-size: 19px; }
+.hud.m-landscape .banner-b, .hud.m-landscape .banner-c { font-size: 12px; }
+.banner:not(.has-art) .banner-c { color: var(--bronze-2); }
+.banner-b:empty, .banner-c:empty { display: none; }
+.log { display: flex; flex-direction: column; justify-content: flex-end; gap: 1px; max-height: calc(4 * 18px); overflow: hidden; }
+.log-line { font: 600 15px/1.13 var(--text); overflow-wrap: anywhere; animation: bannerin .3s ease-out; }
+.line-who { color: var(--bronze-2); margin-right: 5px; }
+.line-who::after { content: ':'; }
+.log-line[data-kind="hint"] .line-text { color: var(--tap); }
+.log-line[data-kind="teach"] .line-text { letter-spacing: .02em; }
+.chip { display: flex; align-items: center; justify-content: flex-start; padding: 0 10px; font: 600 14px/1 var(--text); letter-spacing: .05em;
+  color: var(--bronze-2); transition: opacity .6s; }
+
+/* ---- sheets: a tab's page (phones carry a strip of the five tabs) ---- */
+.sheet { display: flex; flex-direction: column; padding: 8px 12px 10px; overflow: hidden; z-index: 2; }
+.sheet.no-art { background: rgba(42, 29, 20, .92); }
+.sheet.has-art { color: var(--ink); }
+.sheet-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 8px; flex: none; }
+.sheet-title { margin: 0; font: 400 22px/1.1 var(--display); letter-spacing: .06em; }
+.sheet-tabs { display: flex; gap: 4px; order: 3; flex: 1 0 100%; justify-content: space-between; }
+.stab { position: relative; flex: none; width: 44px; height: 44px; }
+.sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; pointer-events: auto; padding-top: 6px; }
+.hud.has-action:not(.m-desktop) .sheet-body { padding-bottom: 72px; }   /* clear of the medallion floating over the sheet */
+.sheet-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 30px; font: 600 15px/1.2 var(--text); }
+.sheet-v { opacity: .9; white-space: nowrap; }
+.sheet-sec { margin-top: 6px; font: 400 18px/1.1 var(--display); letter-spacing: .04em; }
+.sheet-note { font-size: 14px; opacity: .9; }
+.sheet-page { margin: 4px 0 8px; font: 600 15px/1.3 var(--text); font-style: italic; }
+.sheet-btn, .sheet-close { min-width: 44px; min-height: 44px; padding: 0 12px; font: 600 16px/1 var(--text); letter-spacing: .05em; }
+.sheet-body > .sheet-btn { display: block; margin: 6px 0; }
+.sheet-btn.is-off { opacity: .45; }
+.sheet-pair { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 8px; }
+.hud .sheet .crow { position: relative; width: 100%; height: var(--rowh); margin: 0 0 4px; }
+/* phones: the open sheet covers the band (portrait) or the right side (landscape); what lies under it rests and
+   never takes a tap that falls through the sheet's frame */
+.hud.is-sheet:not(.m-desktop) :is(.rows, .allbtn, .autobuy, .colhead, .log) { visibility: hidden; }
+.hud.is-sheet.m-landscape :is(.mm, .mm-hit, .pip) { visibility: hidden; }
+
+/* ---- the end of this build's story (ui/rest.ts): a painted scroll while the party idles above it, and the card view
+   (the card's image, Save image, Post, Copy link, Back) ---- */
+.hud.is-rest :is(.slot, .big) { visibility: hidden; }
+.hud.is-rest:not(.m-desktop) :is(.rows, .allbtn, .autobuy, .colhead, .log) { visibility: hidden; }
+.hud.is-card :is(.slot, .big, .log, .banner, .boss, .chip-auto) { visibility: hidden; }
+.hud.is-card:not(.m-desktop) :is(.rows, .allbtn, .autobuy, .colhead, .hud-place, .ctr, .mm, .mm-hit, .pip, .speedchip) { visibility: hidden; }
+.rest { display: flex; flex-direction: column; z-index: 2; pointer-events: auto; }
+.rest-body { flex: 1 1 auto; }
+.rest.no-art { background: rgba(42, 29, 20, .92); }
+.rest.has-art { color: var(--ink); text-shadow: none; }
+.rest.is-in { animation: restin .5s cubic-bezier(.2, .9, .3, 1.08); }
+@keyframes restin { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .rest.is-in { animation: none; } }
+.rest-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; padding: 6px 10px 4px; overflow-y: auto;
+  overscroll-behavior: contain; touch-action: pan-y; }
+.rest-head { display: flex; align-items: center; gap: 10px; flex: none; }
+.rest-emblem { flex: none; width: 44px; height: 44px; }
+.rest-names { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.rest-company { font: 400 calc(20px * var(--s)) /1.1 var(--display); letter-spacing: .05em; overflow-wrap: anywhere; }
+.rest-kicker { font: 600 14px/1.15 var(--text); letter-spacing: .08em; color: var(--vermilion); }
+.rest.no-art .rest-kicker { color: var(--bronze-2); }
+.rest-road { margin: 0; flex: none; font: 400 calc(19px * var(--s)) /1.2 var(--display); letter-spacing: .02em; }
+.hud .rest-trophy { display: flex; align-items: center; gap: 10px; flex: none; min-height: 60px; text-align: left; }
+.rest-thumb { flex: none; width: 48px; height: 60px; object-fit: cover; background-color: #14100c; }   /* the card's backing until it is painted */
+.rest-trophy-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.rest-trophy-title { font: 600 16px/1.15 var(--text); letter-spacing: .04em; }
+.rest-trophy-stats { font: 600 14px/1.2 var(--text); opacity: .85; }
+.rest-actions { display: flex; gap: 8px; flex: none; }
+.hud .rest-btn { flex: 1 1 0; min-width: 0; white-space: normal; line-height: 1.1; padding: 4px 6px; font-size: 15px; letter-spacing: .03em; }
+.rest-more { margin: 0; flex: none; font: 600 15px/1.3 var(--text); }
+.rest-msg, .keep-msg { font: 600 15px/1.3 var(--text); overflow-wrap: anywhere; }
+.rest-msg:empty, .keep-msg:empty { display: none; }
+.keep-label { display: block; }
+.keep-field { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; min-height: 44px; padding: 0 8px; border: 1px solid var(--bronze);
+  background: var(--cream); color: var(--ink); font: 600 14px/1.2 var(--text); -webkit-user-select: text; user-select: text; pointer-events: auto; }
+.sheet-note { margin: 2px 0 6px; font: 600 14px/1.3 var(--text); opacity: .9; }
+:is(.rest, .cardview) .sheet-btn.has-art { color: var(--cream); text-shadow: 0 1px 0 rgba(20, 12, 6, .85); }
+.cardview { display: flex; flex-direction: column; gap: 8px; padding: 8px 10px 10px; z-index: 3; pointer-events: auto; }
+.cardview.no-art { background: rgba(42, 29, 20, .95); }
+.cardview.has-art { color: var(--ink); text-shadow: none; }
+.cardview.is-wide { flex-direction: row; align-items: stretch; }
+.cardview-art { flex: 1; min-height: 0; min-width: 0; display: flex; align-items: center; justify-content: center; }
+.cardview-img { display: block; max-width: 100%; max-height: 100%; aspect-ratio: 4 / 5; object-fit: contain; pointer-events: auto;
+  -webkit-touch-callout: default; -webkit-user-select: auto; user-select: auto; }
+.cardview-making { font: 600 15px/1.3 var(--text); }
+.cardview-side { display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; flex: none; }
+.cardview.is-wide .cardview-side { width: 42%; justify-content: center; }
+.cardview-msg { margin: 0; font: 600 15px/1.3 var(--text); overflow-wrap: anywhere; -webkit-user-select: text; user-select: text; pointer-events: auto; }
+.cardview-msg:empty { display: none; }
+.cardview-actions { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 8px; }
+.hud .cardview-btn { white-space: normal; line-height: 1.1; padding: 4px 6px; font-size: 15px; letter-spacing: .03em; }
+
+/* ---- reserve: clear (the painted world shows through), never tappable ---- */
+.reserve { pointer-events: none; }
+
+/* ---- capture framing: the place block only (?clip=1) ---- */
+.hud.is-clip > :not(.hud-place) { display: none !important; }
+
+/* ---- debug overlay (?debug=1) ---- */
+.dbg { position: absolute; inset: 0; pointer-events: none; z-index: 5; text-shadow: none; }
+.dbg-box { position: absolute; box-sizing: border-box; outline: 1px dashed var(--bronze-2); }
+.dbg-stage { outline: 2px solid var(--vermilion); }
+.dbg-hud { outline: 1px solid var(--cream); }
+.dbg-reserve { outline: 2px dotted var(--cream); }
+.dbg-label { position: absolute; left: 2px; top: 2px; font: 600 12px/1 var(--text); color: var(--cream); background: rgba(20, 12, 6, .7); padding: 1px 3px; }
+.dbg-info { position: absolute; left: 4px; bottom: 4px; font: 600 12px/1 var(--text); color: var(--cream); background: rgba(20, 12, 6, .7); padding: 2px 4px; }
+.hud.is-debug .hit { outline: 1px solid rgba(240, 179, 74, .7); }

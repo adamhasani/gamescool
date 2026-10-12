@@ -1,0 +1,175 @@
+{
+ "hero_m": {
+  "file": "hero_m.glb",
+  "heightM": 1.8,
+  "tris": 20724,
+  "bytes": 609388,
+  "joints": 24,
+  "hipsLen": 99.314,
+  "hipsScale": 1,
+  "floorLift": {
+   "death_back": 0.168,
+   "knockdown": 0.179,
+   "z_death_a": 0.153,
+   "z_death_b": 0.129,
+   "z_crawl": 0.022,
+   "z_rise": 0.086
+  }
+ },
+ "hero_f": {
+  "file": "hero_f.glb",
+  "heightM": 1.7,
+  "tris": 20434,
+  "bytes": 720604,
+  "joints": 24,
+  "hipsLen": 97.541,
+  "hipsScale": 0.9821,
+  "floorLift": {
+   "death_back": 0.092,
+   "death_front": 0.022,
+   "knockdown": 0.091,
+   "z_death_a": 0.057,
+   "z_death_b": 0.039,
+   "z_rise": 0.041
+  }
+ },
+ "maya": {
+  "file": "maya.glb",
+  "heightM": 1.66,
+  "tris": 15402,
+  "bytes": 635180,
+  "joints": 24,
+  "hipsLen": 90.009,
+  "hipsScale": 0.9063
+ },
+ "okafor": {
+  "file": "okafor.glb",
+  "heightM": 1.78,
+  "tris": 15575,
+  "bytes": 542472,
+  "joints": 24,
+  "hipsLen": 98.538,
+  "hipsScale": 0.9922,
+  "floorLift": {
+   "death_front": 0.042,
+   "knockdown": 0.021,
+   "z_crawl": 0.041
+  }
+ },
+ "henderson": {
+  "file": "henderson.glb",
+  "heightM": 1.58,
+  "tris": 15383,
+  "bytes": 512124,
+  "joints": 24,
+  "hipsLen": 85.101,
+  "hipsScale": 0.8569,
+  "floorLift": {
+   "z_death_a": -0.027,
+   "z_death_b": -0.027,
+   "z_crawl": -0.022
+  }
+ },
+ "luis": {
+  "file": "luis.glb",
+  "heightM": 1.74,
+  "tris": 15611,
+  "bytes": 595548,
+  "joints": 24,
+  "hipsLen": 94.511,
+  "hipsScale": 0.9516,
+  "floorLift": {
+   "death_back": 0.032,
+   "knockdown": 0.037,
+   "z_crawl": 0.029,
+   "z_rise": 0.023
+  }
+ },
+ "z_walker_m": {
+  "file": "z_walker_m.glb",
+  "heightM": 1.78,
+  "tris": 12451,
+  "bytes": 575732,
+  "joints": 24,
+  "hipsLen": 96.928,
+  "hipsScale": 0.976
+ },
+ "z_walker_f": {
+  "file": "z_walker_f.glb",
+  "heightM": 1.66,
+  "tris": 11600,
+  "bytes": 695720,
+  "joints": 24,
+  "hipsLen": 87.948,
+  "hipsScale": 0.8855,
+  "floorLift": {
+   "death_back": 0.021,
+   "death_front": 0.026,
+   "knockdown": 0.024,
+   "z_death_a": 0.034,
+   "z_death_b": 0.041,
+   "z_crawl": 0.029,
+   "z_rise": 0.041
+  }
+ },
+ "z_runner": {
+  "file": "z_runner.glb",
+  "heightM": 1.76,
+  "tris": 12376,
+  "bytes": 545836,
+  "joints": 24,
+  "hipsLen": 97.083,
+  "hipsScale": 0.9775,
+  "floorLift": {
+   "death_front": -0.023
+  }
+ },
+ "z_fat": {
+  "file": "z_fat.glb",
+  "heightM": 1.8,
+  "tris": 12481,
+  "bytes": 489252,
+  "joints": 24,
+  "hipsLen": 91.671,
+  "hipsScale": 0.923,
+  "floorLift": {
+   "death_back": 0.149,
+   "death_front": 0.101,
+   "knockdown": 0.119,
+   "z_death_a": 0.136,
+   "z_death_b": 0.125,
+   "z_crawl": 0.034,
+   "z_rise": 0.113
+  }
+ },
+ "z_armored": {
+  "file": "z_armored.glb",
+  "heightM": 1.84,
+  "tris": 12378,
+  "bytes": 546368,
+  "joints": 24,
+  "hipsLen": 99.226,
+  "hipsScale": 0.9991,
+  "floorLift": {
+   "death_front": 0.028
+  }
+ },
+ "z_backpacker": {
+  "file": "z_backpacker.glb",
+  "heightM": 1.72,
+  "tris": 12523,
+  "bytes": 575244,
+  "joints": 24,
+  "hipsLen": 97.572,
+  "hipsScale": 0.9825,
+  "floorLift": {
+   "death_back": 0.126,
+   "death_front": 0.08,
+   "knockdown": 0.123,
+   "z_death_a": 0.119,
+   "z_death_b": 0.099,
+   "z_crawl": 0.047,
+   "z_rise": 0.096
+  }
+ }
+}

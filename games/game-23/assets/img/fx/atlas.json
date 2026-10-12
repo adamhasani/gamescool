@@ -1,0 +1,324 @@
+{
+ "rotor-blur": {
+  "file": "fx/rotor-blur.webp",
+  "w": 270,
+  "h": 260,
+  "pivot": [
+   0.492,
+   0.488
+  ],
+  "blend": "additive",
+  "src": [
+   41,
+   40,
+   270,
+   260
+  ]
+ },
+ "fan-blur": {
+  "file": "fx/fan-blur.webp",
+  "w": 280,
+  "h": 272,
+  "pivot": [
+   0.49,
+   0.499
+  ],
+  "blend": "additive",
+  "src": [
+   344,
+   34,
+   280,
+   272
+  ]
+ },
+ "thruster-cyan": {
+  "file": "fx/thruster-cyan.webp",
+  "w": 287,
+  "h": 280,
+  "pivot": [
+   0.499,
+   0.498
+  ],
+  "blend": "additive",
+  "src": [
+   643,
+   34,
+   287,
+   280
+  ]
+ },
+ "thruster-orange": {
+  "file": "fx/thruster-orange.webp",
+  "w": 292,
+  "h": 284,
+  "pivot": [
+   0.491,
+   0.503
+  ],
+  "blend": "additive",
+  "src": [
+   941,
+   29,
+   292,
+   284
+  ]
+ },
+ "muzzle-flash": {
+  "file": "fx/muzzle-flash.webp",
+  "w": 347,
+  "h": 323,
+  "pivot": [
+   0.488,
+   0.516
+  ],
+  "blend": "additive",
+  "src": [
+   67,
+   311,
+   347,
+   323
+  ]
+ },
+ "shockwave-ring": {
+  "file": "fx/shockwave-ring.webp",
+  "w": 350,
+  "h": 341,
+  "pivot": [
+   0.498,
+   0.495
+  ],
+  "blend": "additive",
+  "src": [
+   452,
+   303,
+   350,
+   341
+  ]
+ },
+ "smoke-puff": {
+  "file": "fx/smoke-puff.webp",
+  "w": 346,
+  "h": 314,
+  "pivot": [
+   0.506,
+   0.46
+  ],
+  "blend": "additive",
+  "src": [
+   833,
+   318,
+   346,
+   314
+  ]
+ },
+ "laser-bolt": {
+  "file": "fx/laser-bolt.webp",
+  "w": 1206,
+  "h": 201,
+  "pivot": [
+   0.495,
+   0.328
+  ],
+  "blend": "additive",
+  "src": [
+   23,
+   629,
+   1206,
+   201
+  ]
+ },
+ "spark-streak": {
+  "file": "fx/spark-streak.webp",
+  "w": 1119,
+  "h": 109,
+  "pivot": [
+   0.017,
+   0.5
+  ],
+  "blend": "additive",
+  "src": [
+   48,
+   770,
+   1119,
+   109
+  ]
+ },
+ "missile-exhaust": {
+  "file": "fx/missile-exhaust.webp",
+  "w": 1178,
+  "h": 162,
+  "pivot": [
+   0.014,
+   0.5
+  ],
+  "blend": "additive",
+  "src": [
+   33,
+   888,
+   1178,
+   162
+  ]
+ },
+ "flare-streak": {
+  "file": "fx/flare-streak.webp",
+  "w": 1193,
+  "h": 159,
+  "pivot": [
+   0.489,
+   0.465
+  ],
+  "blend": "additive",
+  "src": [
+   29,
+   1053,
+   1193,
+   159
+  ]
+ },
+ "_about": "Cut from art/codex/b3-fx/fx-atlas.png by connected components. RGB on black: use additive blending (or luminance as alpha). pivot = normalised [x, y] from the top-left. Long streaks point along +x; the missile exhaust and spark streak have their hot end at x = 0.",
+ "shard-panel-1": {
+  "file": "fx/shard-panel-1.webp",
+  "w": 307,
+  "h": 376,
+  "pivot": [
+   0.581,
+   0.53
+  ],
+  "blend": "alpha",
+  "kind": "panel-light",
+  "tint": true,
+  "src": [
+   17,
+   228,
+   307,
+   376
+  ]
+ },
+ "shard-strut": {
+  "file": "fx/shard-strut.webp",
+  "w": 236,
+  "h": 406,
+  "pivot": [
+   0.495,
+   0.474
+  ],
+  "blend": "alpha",
+  "kind": "gunmetal",
+  "tint": false,
+  "src": [
+   373,
+   230,
+   236,
+   406
+  ]
+ },
+ "shard-panel-2": {
+  "file": "fx/shard-panel-2.webp",
+  "w": 290,
+  "h": 391,
+  "pivot": [
+   0.586,
+   0.508
+  ],
+  "blend": "alpha",
+  "kind": "panel-light",
+  "tint": true,
+  "src": [
+   628,
+   230,
+   290,
+   391
+  ]
+ },
+ "shard-carbon": {
+  "file": "fx/shard-carbon.webp",
+  "w": 282,
+  "h": 376,
+  "pivot": [
+   0.532,
+   0.502
+  ],
+  "blend": "alpha",
+  "kind": "carbon",
+  "tint": false,
+  "src": [
+   957,
+   229,
+   282,
+   376
+  ]
+ },
+ "shard-panel-3": {
+  "file": "fx/shard-panel-3.webp",
+  "w": 307,
+  "h": 327,
+  "pivot": [
+   0.521,
+   0.484
+  ],
+  "blend": "alpha",
+  "kind": "panel-light",
+  "tint": true,
+  "src": [
+   24,
+   758,
+   307,
+   327
+  ]
+ },
+ "shard-orange": {
+  "file": "fx/shard-orange.webp",
+  "w": 308,
+  "h": 308,
+  "pivot": [
+   0.485,
+   0.49
+  ],
+  "blend": "alpha",
+  "kind": "orange-livery",
+  "tint": false,
+  "src": [
+   358,
+   760,
+   308,
+   308
+  ]
+ },
+ "shard-panel-4": {
+  "file": "fx/shard-panel-4.webp",
+  "w": 260,
+  "h": 373,
+  "pivot": [
+   0.444,
+   0.554
+  ],
+  "blend": "alpha",
+  "kind": "panel-light",
+  "tint": true,
+  "src": [
+   690,
+   711,
+   260,
+   373
+  ]
+ },
+ "shard-panel-5": {
+  "file": "fx/shard-panel-5.webp",
+  "w": 250,
+  "h": 293,
+  "pivot": [
+   0.5,
+   0.465
+  ],
+  "blend": "alpha",
+  "kind": "panel-light",
+  "tint": true,
+  "src": [
+   978,
+   770,
+   250,
+   293
+  ]
+ },
+ "_shards": "shard-*: debris from art/codex/b8-shards/fx-shards.png, RGBA (straight alpha, normal blending), lit warm from below. tint=true pieces are light-grey/off-white panels: multiply by a drone livery colour. pivot = alpha centre of mass; spin them around it."
+}

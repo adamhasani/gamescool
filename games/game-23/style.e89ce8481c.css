@@ -1,0 +1,170 @@
+/* Base page: fonts, the canvas, the UI root and the boot poster. Lanes H and M add their own CSS files
+   (src/ui/hud/hud.css, src/ui/menu/menu.css, imported as text and injected by their modules). */
+@font-face { font-family: 'Inter'; src: url('assets/fonts/inter-latin-var.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url('assets/fonts/barlowcondensed-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url('assets/fonts/barlowcondensed-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url('assets/fonts/barlowcondensed-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Barlow Condensed'; src: url('assets/fonts/barlowcondensed-800.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+:root { --hud: 1; --orange: #FF7A1A; --cyan: #35E0F0; --pink: #FF3D8B; --white: #F4F1EA; --ink: #14161c; color-scheme: dark; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--ink); color: var(--white); font-family: 'Inter', system-ui, sans-serif; -webkit-user-select: none; user-select: none; touch-action: none; }
+#view { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; outline: none; }
+#ui { position: fixed; inset: 0; pointer-events: none; }
+#ui > * { pointer-events: auto; }
+
+/* ---- the boot loader (web/index.html; Luca 12 Oct 2026: "can you make it like forza 6 style?") -----------------------
+   Forza Horizon's load screen in our own look: the painted key art full-bleed, drifting, a new picture every 7 s; the
+   logo bottom left (the title screen's lettering) over a rotating tip and a glass loading pill; top right a card with
+   what is loading and its route, filled from the start gate as the game loads. Sizes in 1080p units (--lu), with floors
+   for phones. gamescool.id's still poster (components/game-23) uses the same picture, crop and shade, so its frame can
+   fade in over it with nothing moving. The first frame fades it all out (body[data-ready="1"], src/main.js). */
+#poster {
+  --lu: min(calc(100vw / 1920), calc(100vh / 1080));
+  --o: var(--orange);
+  position: fixed; inset: 0; z-index: 10; overflow: hidden;
+  background: radial-gradient(120% 90% at 62% 40%, #3b2a3a 0%, #1b1a24 46%, #0d0e14 100%);
+  transition: opacity .45s ease .12s, visibility 0s linear .57s;
+}
+@supports (height: 100dvh) { #poster { --lu: min(calc(100vw / 1920), calc(100dvh / 1080)); } }
+body[data-ready="1"] #poster { opacity: 0; visibility: hidden; pointer-events: none; }
+/* at the first frame the text and the card go first (0.16 s), then the picture fades into the title screen's */
+.poster-lockup, .ld-card { transition: opacity .16s ease; }
+body[data-ready="1"] #poster .poster-lockup, body[data-ready="1"] #poster .ld-card { opacity: 0; }
+
+.ld-slides, .ld-slide, .ld-shade { position: absolute; inset: 0; }
+.ld-slide { opacity: 0; transition: opacity 1.4s ease; }
+.ld-slide.on { opacity: 1; }
+.ld-slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; }
+/* the first picture starts exactly as gamescool.id's poster shows it (scale 1), then every picture drifts */
+.ld-slide.first img { transform-origin: 65% 55%; animation: ld-kb0 24s ease-out both; }
+.ld-slide.a img { transform-origin: 62% 56%; animation: ld-kba 16s ease-out both; }
+.ld-slide.b img { transform-origin: 38% 46%; animation: ld-kbb 16s ease-out both; }
+@keyframes ld-kb0 { from { transform: scale(1); } to { transform: scale(1.09) translate3d(-1.4%, -0.9%, 0); } }
+@keyframes ld-kba { from { transform: scale(1.03); } to { transform: scale(1.12) translate3d(-1.6%, -1%, 0); } }
+@keyframes ld-kbb { from { transform: scale(1.12) translate3d(1.5%, 0.7%, 0); } to { transform: scale(1.03); } }
+.ld-shade { background:
+  linear-gradient(90deg, rgba(8, 9, 14, 0.8) 0%, rgba(8, 9, 14, 0.44) 27%, rgba(8, 9, 14, 0) 50%),
+  linear-gradient(0deg, rgba(8, 9, 14, 0.84) 0%, rgba(8, 9, 14, 0.4) 25%, rgba(8, 9, 14, 0) 47%),
+  linear-gradient(205deg, rgba(8, 9, 14, 0.6) 0%, rgba(8, 9, 14, 0) 32%); }
+
+/* bottom left: the logo, a tip, the loading pill */
+.poster-lockup {
+  position: absolute; z-index: 2; box-sizing: border-box;
+  left: max(calc(var(--lu) * 110), 20px, calc(env(safe-area-inset-left) + 8px));
+  bottom: max(calc(var(--lu) * 92), calc(env(safe-area-inset-bottom) + 16px));
+  width: min(calc(var(--lu) * 760), calc(100vw - 40px));
+}
+.poster-title {
+  margin: 0; font: 800 calc(var(--lu) * 128) / 0.82 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: -0.005em;
+  color: #F7F3EC; transform: skewX(-9deg); transform-origin: 0 100%; text-shadow: 0 calc(var(--lu) * 6) calc(var(--lu) * 40) rgba(0, 0, 0, 0.55);
+}
+.poster-title span { display: block; }
+.poster-title span + span { color: var(--o); }
+.poster-title::after {
+  content: ''; display: block; width: calc(var(--lu) * 120); height: max(3px, calc(var(--lu) * 6)); margin-top: calc(var(--lu) * 20);
+  background: var(--o); transform-origin: 0 50%; animation: ld-line 2.8s ease-in-out infinite;
+}
+@keyframes ld-line { 0%, 100% { transform: scaleX(1); opacity: 1; } 50% { transform: scaleX(0.55); opacity: 0.7; } }
+.ld-tip {
+  display: flex; align-items: baseline; gap: calc(var(--lu) * 12); margin: calc(var(--lu) * 34) 0 0; max-width: calc(var(--lu) * 660);
+  min-height: 2.9em; font: 500 max(13px, calc(var(--lu) * 19)) / 1.45 'Inter', sans-serif; color: rgba(244, 241, 234, 0.92);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75); opacity: 0; transform: translate3d(0, 6px, 0); transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.ld-tip.on { opacity: 1; transform: none; }
+.ld-tip b {
+  flex: none; font: 800 max(11px, calc(var(--lu) * 15)) / 1 'Barlow Condensed', sans-serif; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #14161c; background: var(--o); padding: 0.34em 0.5em 0.28em 0.64em; transform: skewX(-9deg) translateY(-0.12em);
+}
+.ld-pill {
+  display: inline-flex; align-items: center; gap: max(9px, calc(var(--lu) * 14)); margin-top: calc(var(--lu) * 16);
+  height: max(34px, calc(var(--lu) * 58)); padding: 0 max(16px, calc(var(--lu) * 28)) 0 max(11px, calc(var(--lu) * 18)); box-sizing: border-box;
+  border-radius: 999px; background: rgba(10, 11, 16, 0.6); border: 1px solid rgba(244, 241, 234, 0.14);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+/* the loading circle: a ring with a comet tail, turning */
+.ld-spin {
+  flex: none; width: max(17px, calc(var(--lu) * 28)); height: max(17px, calc(var(--lu) * 28)); border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(255, 122, 26, 0) 0deg, rgba(255, 122, 26, 0.15) 90deg, #FF7A1A 300deg, #FFE2C8 352deg, rgba(255, 122, 26, 0) 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - max(2.5px, calc(var(--lu) * 4))), #000 calc(100% - max(2px, calc(var(--lu) * 3.4))));
+  mask: radial-gradient(farthest-side, transparent calc(100% - max(2.5px, calc(var(--lu) * 4))), #000 calc(100% - max(2px, calc(var(--lu) * 3.4))));
+  animation: ld-spin 0.95s linear infinite;
+}
+@keyframes ld-spin { to { transform: rotate(360deg); } }
+.ld-word { font: 700 max(13px, calc(var(--lu) * 21)) / 1 'Barlow Condensed', sans-serif; letter-spacing: 0.24em; text-transform: uppercase; color: #F4F1EA; }
+.ld-pct { min-width: 3.1ch; font: 800 max(15px, calc(var(--lu) * 26)) / 1 'Barlow Condensed', sans-serif; font-variant-numeric: tabular-nums; color: var(--o); text-align: right; }
+.ld-pct:empty { display: none; }
+.poster-note {
+  margin: calc(var(--lu) * 26) 0 0; max-width: max(280px, calc(var(--lu) * 660));
+  font: 600 max(14px, calc(var(--lu) * 19)) / 1.45 'Inter', sans-serif; color: #ffb27a; text-shadow: 0 1px 2px #000;
+}
+#poster.ld-failed .ld-pill, #poster.ld-failed .ld-tip { display: none; }
+
+/* bottom right, on the pill's line: what is loading, its route beside it */
+.ld-card {
+  position: absolute; z-index: 2; box-sizing: border-box; display: flex; align-items: center; gap: max(12px, calc(var(--lu) * 24));
+  right: max(calc(var(--lu) * 110), 16px, calc(env(safe-area-inset-right) + 8px));
+  bottom: max(calc(var(--lu) * 92), calc(env(safe-area-inset-bottom) + 16px));
+  max-width: min(calc(var(--lu) * 760), 52vw); padding: max(10px, calc(var(--lu) * 18)) max(14px, calc(var(--lu) * 28)) max(10px, calc(var(--lu) * 18)) max(10px, calc(var(--lu) * 18));
+  background: linear-gradient(180deg, rgba(12, 13, 18, 0.7), rgba(12, 13, 18, 0.5)); border-top: max(2px, calc(var(--lu) * 4)) solid var(--o);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - max(10px, calc(var(--lu) * 22))), calc(100% - max(10px, calc(var(--lu) * 22))) 100%, 0 100%);
+  animation: ld-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s backwards;
+}
+.ld-card[hidden] { display: none; }
+@keyframes ld-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
+.ld-map { flex: none; display: block; width: max(96px, calc(var(--lu) * 206)); height: auto; overflow: visible; }
+.ld-info { min-width: 0; }
+.ld-kick { font: 700 max(10px, calc(var(--lu) * 15)) / 1.25 'Barlow Condensed', sans-serif; letter-spacing: 0.3em; text-transform: uppercase; color: var(--o); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ld-name {
+  margin: max(2px, calc(var(--lu) * 6)) 0 max(5px, calc(var(--lu) * 10)); font: 800 max(19px, calc(var(--lu) * 44)) / 0.95 'Barlow Condensed', sans-serif;
+  text-transform: uppercase; letter-spacing: 0.01em; color: #F7F3EC; transform: skewX(-7deg); transform-origin: 0 100%; white-space: nowrap;
+}
+.ld-under { fill: none; stroke: rgba(0, 0, 0, 0.5); stroke-width: 13; stroke-linejoin: round; }
+.ld-base { fill: none; stroke: rgba(244, 241, 234, 0.34); stroke-width: 6; stroke-linejoin: round; }
+.ld-run { fill: none; stroke: #FF7A1A; stroke-width: 7; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 0 1; filter: drop-shadow(0 0 5px rgba(255, 122, 26, 0.85)); }
+.ld-gates circle { fill: #F4F1EA; opacity: 0.6; }
+.ld-start line { stroke: #F4F1EA; stroke-width: 4; }
+.ld-start path { fill: none; stroke: #F4F1EA; stroke-width: 3.2; stroke-linejoin: round; }
+.ld-head { fill: #FFF6EC; stroke: #FF7A1A; stroke-width: 4; }
+.ld-glow { fill: rgba(255, 122, 26, 0.38); transform-box: fill-box; transform-origin: center; animation: ld-pulse 1.1s ease-in-out infinite; }
+@keyframes ld-pulse { 0%, 100% { transform: scale(0.7); opacity: 0.95; } 50% { transform: scale(1.3); opacity: 0.35; } }
+.ld-stats {
+  display: flex; flex-wrap: wrap; align-items: center; gap: max(4px, calc(var(--lu) * 7)) max(9px, calc(var(--lu) * 15));
+  font: 700 max(10px, calc(var(--lu) * 16)) / 1.2 'Barlow Condensed', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244, 241, 234, 0.88);
+}
+.ld-stats .chip { color: #0d0e14; background: var(--c); padding: 0.2em 0.5em 0.14em 0.6em; transform: skewX(-9deg); }
+
+/* phones held sideways */
+@media (orientation: landscape) and (max-height: 500px) {
+  .poster-lockup { left: max(16px, calc(env(safe-area-inset-left) + 6px)); bottom: max(12px, calc(env(safe-area-inset-bottom) + 6px)); width: min(44vw, 360px); }
+  .poster-title { font-size: clamp(30px, 10vh, 46px); }
+  .poster-title::after { width: 50px; height: 3px; margin-top: 7px; }
+  .ld-tip { margin-top: 9px; font-size: 11.5px; }
+  .ld-tip b { font-size: 10px; }
+  .ld-pill { margin-top: 5px; height: 30px; }
+  .ld-card { right: max(12px, calc(env(safe-area-inset-right) + 6px)); bottom: max(12px, calc(env(safe-area-inset-bottom) + 6px)); max-width: 50vw; gap: 10px; padding: 8px 12px 8px 8px; }
+  .ld-map { width: 84px; }
+  .ld-name { font-size: 18px; }
+  .ld-kick { font-size: 9px; }
+  .ld-stats { font-size: 9.5px; gap: 3px 8px; }
+}
+/* phones held upright (and other tall windows): the card on top, under the site's Games chip; the lockup at the foot */
+@media (max-aspect-ratio: 3/4) {
+  #poster { --lu: calc(100vw / 1080); }
+  .ld-shade { background:
+    linear-gradient(0deg, rgba(8, 9, 14, 0.9) 0%, rgba(8, 9, 14, 0.55) 28%, rgba(8, 9, 14, 0) 50%),
+    linear-gradient(180deg, rgba(8, 9, 14, 0.7) 0%, rgba(8, 9, 14, 0.2) 22%, rgba(8, 9, 14, 0) 34%); }
+  .ld-card { top: max(58px, calc(env(safe-area-inset-top) + 50px)); bottom: auto; left: 14px; right: 14px; max-width: none; padding: 10px 14px 10px 10px; gap: 12px; }
+  .ld-map { width: 30vw; max-width: 150px; }
+  .ld-name { font-size: clamp(20px, 6.4vw, 30px); }
+  .poster-lockup { left: 20px; right: 20px; width: auto; bottom: max(24px, calc(env(safe-area-inset-bottom) + 14px)); }
+  .poster-title { font-size: clamp(46px, 13.5vw, 92px); }
+  .poster-title::after { width: 64px; margin-top: 12px; }
+  .ld-tip { margin-top: 16px; font-size: clamp(13px, 3.6vw, 17px); max-width: none; }
+  .ld-pill { margin-top: 10px; height: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ld-slide img, .poster-title::after, .ld-glow, .ld-card { animation: none !important; }
+  .ld-slide, .ld-tip { transition: none; }
+  .ld-spin { animation: ld-breathe 2.4s ease-in-out infinite; }
+}
+@keyframes ld-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
