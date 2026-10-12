@@ -1,0 +1,1456 @@
+{
+ "version": 1,
+ "sfx": [
+  {
+   "cue": "swing.light",
+   "file": "sfx/swing-light-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.light",
+   "file": "sfx/swing-light-2.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.light",
+   "file": "sfx/swing-light-3.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.light",
+   "file": "sfx/swing-light-4.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.heavy",
+   "file": "sfx/swing-heavy-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.heavy",
+   "file": "sfx/swing-heavy-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.heavy",
+   "file": "sfx/swing-heavy-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.spin",
+   "file": "sfx/swing-spin-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "swing.spin",
+   "file": "sfx/swing-spin-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "chain.whip",
+   "file": "sfx/chain-whip-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "chain.whip",
+   "file": "sfx/chain-whip-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "chain.retract",
+   "file": "sfx/chain-retract.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "jump",
+   "file": "sfx/jump.mp3",
+   "gain": 0.6,
+   "reverb": 0.1
+  },
+  {
+   "cue": "land",
+   "file": "sfx/land-1.mp3",
+   "gain": 0.7,
+   "reverb": 0.2
+  },
+  {
+   "cue": "land",
+   "file": "sfx/land-2.mp3",
+   "gain": 0.7,
+   "reverb": 0.2
+  },
+  {
+   "cue": "dodge",
+   "file": "sfx/dodge-1.mp3",
+   "gain": 0.75,
+   "reverb": 0.1
+  },
+  {
+   "cue": "dodge",
+   "file": "sfx/dodge-2.mp3",
+   "gain": 0.75,
+   "reverb": 0.1
+  },
+  {
+   "cue": "block",
+   "file": "sfx/block.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "parry",
+   "file": "sfx/parry.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "block.break",
+   "file": "sfx/block-break.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hurt",
+   "file": "sfx/hurt-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.16
+  },
+  {
+   "cue": "hurt",
+   "file": "sfx/hurt-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.16
+  },
+  {
+   "cue": "hurt",
+   "file": "sfx/hurt-3.mp3",
+   "gain": 0.8,
+   "reverb": 0.16
+  },
+  {
+   "cue": "death",
+   "file": "sfx/death.mp3",
+   "gain": 1.0,
+   "reverb": 0.16
+  },
+  {
+   "cue": "launch",
+   "file": "sfx/launch.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "slam",
+   "file": "sfx/slam.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "grab",
+   "file": "sfx/grab.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "throw",
+   "file": "sfx/throw.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "tear",
+   "file": "sfx/tear.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.flesh",
+   "file": "sfx/hit-flesh-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.flesh",
+   "file": "sfx/hit-flesh-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.flesh",
+   "file": "sfx/hit-flesh-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.armor",
+   "file": "sfx/hit-armor-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.armor",
+   "file": "sfx/hit-armor-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.armor",
+   "file": "sfx/hit-armor-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.bone",
+   "file": "sfx/hit-bone-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.bone",
+   "file": "sfx/hit-bone-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.bone",
+   "file": "sfx/hit-bone-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.stone",
+   "file": "sfx/hit-stone-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.stone",
+   "file": "sfx/hit-stone-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.block",
+   "file": "sfx/hit-block-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hit.block",
+   "file": "sfx/hit-block-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "qte.prompt",
+   "file": "sfx/qte-prompt.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "qte.tick",
+   "file": "sfx/qte-tick.mp3",
+   "gain": 0.6,
+   "reverb": 0.2
+  },
+  {
+   "cue": "qte.success",
+   "file": "sfx/qte-success.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "finisher",
+   "file": "sfx/finisher.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "orb.red",
+   "file": "sfx/orb-red-1.mp3",
+   "gain": 0.7,
+   "reverb": 0.12
+  },
+  {
+   "cue": "orb.red",
+   "file": "sfx/orb-red-2.mp3",
+   "gain": 0.7,
+   "reverb": 0.12
+  },
+  {
+   "cue": "orb.green",
+   "file": "sfx/orb-green.mp3",
+   "gain": 0.8,
+   "reverb": 0.12
+  },
+  {
+   "cue": "orb.blue",
+   "file": "sfx/orb-blue.mp3",
+   "gain": 0.75,
+   "reverb": 0.12
+  },
+  {
+   "cue": "upgrade",
+   "file": "sfx/upgrade.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "altar",
+   "file": "sfx/altar.mp3",
+   "gain": 1.0,
+   "reverb": 0.12
+  },
+  {
+   "cue": "magic.storm",
+   "file": "sfx/magic-storm.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "magic.gaze",
+   "file": "sfx/magic-gaze.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "magic.fail",
+   "file": "sfx/magic-fail.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "rage.start",
+   "file": "sfx/rage-start.mp3",
+   "gain": 1.0,
+   "reverb": 0.16
+  },
+  {
+   "cue": "rage.end",
+   "file": "sfx/rage-end.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "rage.ready",
+   "file": "sfx/rage-ready.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "enemy.tell",
+   "file": "sfx/enemy-tell-1.mp3",
+   "gain": 0.75,
+   "reverb": 0.16
+  },
+  {
+   "cue": "enemy.tell",
+   "file": "sfx/enemy-tell-2.mp3",
+   "gain": 0.75,
+   "reverb": 0.16
+  },
+  {
+   "cue": "enemy.swing",
+   "file": "sfx/enemy-swing-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "cue": "enemy.swing",
+   "file": "sfx/enemy-swing-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "cue": "enemy.roar",
+   "file": "sfx/enemy-roar.mp3",
+   "gain": 1.0,
+   "reverb": 0.16
+  },
+  {
+   "cue": "enemy.die",
+   "file": "sfx/enemy-die-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "enemy.die",
+   "file": "sfx/enemy-die-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "enemy.spawn",
+   "file": "sfx/enemy-spawn.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "boss.roar",
+   "file": "sfx/boss-roar.mp3",
+   "gain": 1.0,
+   "reverb": 0.16
+  },
+  {
+   "cue": "boss.stomp",
+   "file": "sfx/boss-stomp.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "boss.sweep",
+   "file": "sfx/boss-sweep.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "boss.stagger",
+   "file": "sfx/boss-stagger.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "barrier.seal",
+   "file": "sfx/barrier-seal.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "barrier.open",
+   "file": "sfx/barrier-open.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "lever",
+   "file": "sfx/lever.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "door",
+   "file": "sfx/door.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "checkpoint",
+   "file": "sfx/checkpoint.mp3",
+   "gain": 0.8,
+   "reverb": 0.12
+  },
+  {
+   "cue": "crate",
+   "file": "sfx/crate-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.22
+  },
+  {
+   "cue": "crate",
+   "file": "sfx/crate-2.mp3",
+   "gain": 0.85,
+   "reverb": 0.22
+  },
+  {
+   "cue": "crate.slide",
+   "file": "sfx/crate-slide-1.mp3",
+   "gain": 0.9,
+   "reverb": 0.2
+  },
+  {
+   "cue": "crate.slide",
+   "file": "sfx/crate-slide-2.mp3",
+   "gain": 0.9,
+   "reverb": 0.2
+  },
+  {
+   "cue": "crate.hit",
+   "file": "sfx/crate-hit-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.24
+  },
+  {
+   "cue": "crate.hit",
+   "file": "sfx/crate-hit-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.24
+  },
+  {
+   "cue": "plate",
+   "file": "sfx/plate-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "crank",
+   "file": "sfx/crank-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.18
+  },
+  {
+   "cue": "crank",
+   "file": "sfx/crank-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.18
+  },
+  {
+   "cue": "creak",
+   "file": "sfx/creak-1.mp3",
+   "gain": 0.75,
+   "reverb": 0.12
+  },
+  {
+   "cue": "creak",
+   "file": "sfx/creak-2.mp3",
+   "gain": 0.75,
+   "reverb": 0.12
+  },
+  {
+   "cue": "mantle",
+   "file": "sfx/mantle-1.mp3",
+   "gain": 0.9,
+   "reverb": 0.14
+  },
+  {
+   "cue": "mantle",
+   "file": "sfx/mantle-2.mp3",
+   "gain": 0.9,
+   "reverb": 0.14
+  },
+  {
+   "cue": "fall",
+   "file": "sfx/fall-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.22
+  },
+  {
+   "cue": "fall",
+   "file": "sfx/fall-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.22
+  },
+  {
+   "cue": "harpy.screech",
+   "file": "sfx/harpy-screech-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.16
+  },
+  {
+   "cue": "harpy.screech",
+   "file": "sfx/harpy-screech-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.16
+  },
+  {
+   "cue": "harpy.wing",
+   "file": "sfx/harpy-wing-1.mp3",
+   "gain": 0.7,
+   "reverb": 0.1
+  },
+  {
+   "cue": "harpy.wing",
+   "file": "sfx/harpy-wing-2.mp3",
+   "gain": 0.7,
+   "reverb": 0.1
+  },
+  {
+   "cue": "harpy.dive",
+   "file": "sfx/harpy-dive-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "harpy.dive",
+   "file": "sfx/harpy-dive-2.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "satyr.laugh",
+   "file": "sfx/satyr-laugh-1.mp3",
+   "gain": 0.75,
+   "reverb": 0.16
+  },
+  {
+   "cue": "satyr.laugh",
+   "file": "sfx/satyr-laugh-2.mp3",
+   "gain": 0.75,
+   "reverb": 0.16
+  },
+  {
+   "cue": "satyr.leap",
+   "file": "sfx/satyr-leap-1.mp3",
+   "gain": 0.75,
+   "reverb": 0.1
+  },
+  {
+   "cue": "satyr.leap",
+   "file": "sfx/satyr-leap-2.mp3",
+   "gain": 0.75,
+   "reverb": 0.1
+  },
+  {
+   "cue": "gorgon.hiss",
+   "file": "sfx/gorgon-hiss-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.16
+  },
+  {
+   "cue": "gorgon.hiss",
+   "file": "sfx/gorgon-hiss-2.mp3",
+   "gain": 0.85,
+   "reverb": 0.16
+  },
+  {
+   "cue": "gorgon.gaze",
+   "file": "sfx/gorgon-gaze-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "gorgon.gaze",
+   "file": "sfx/gorgon-gaze-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "cyclops.roar",
+   "file": "sfx/cyclops-roar-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "cyclops.roar",
+   "file": "sfx/cyclops-roar-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "cyclops.slam",
+   "file": "sfx/cyclops-slam-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "cyclops.slam",
+   "file": "sfx/cyclops-slam-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "cyclops.throw",
+   "file": "sfx/cyclops-throw-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "cyclops.throw",
+   "file": "sfx/cyclops-throw-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "stone",
+   "file": "sfx/stone-1.mp3",
+   "gain": 0.9,
+   "reverb": 0.2
+  },
+  {
+   "cue": "stone",
+   "file": "sfx/stone-2.mp3",
+   "gain": 0.9,
+   "reverb": 0.2
+  },
+  {
+   "cue": "stone.break",
+   "file": "sfx/stone-break-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "stone.break",
+   "file": "sfx/stone-break-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "climb.grab",
+   "file": "sfx/climb-grab-1.mp3",
+   "gain": 0.9,
+   "reverb": 0.14
+  },
+  {
+   "cue": "climb.grab",
+   "file": "sfx/climb-grab-2.mp3",
+   "gain": 0.9,
+   "reverb": 0.14
+  },
+  {
+   "cue": "climb.step",
+   "file": "sfx/climb-step-1.mp3",
+   "gain": 0.7,
+   "reverb": 0.05
+  },
+  {
+   "cue": "climb.step",
+   "file": "sfx/climb-step-2.mp3",
+   "gain": 0.7,
+   "reverb": 0.05
+  },
+  {
+   "cue": "lift.move",
+   "file": "sfx/lift-move-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.18
+  },
+  {
+   "cue": "lift.move",
+   "file": "sfx/lift-move-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.18
+  },
+  {
+   "cue": "lift.latch",
+   "file": "sfx/lift-latch-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "lift.latch",
+   "file": "sfx/lift-latch-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "slide.ride",
+   "file": "sfx/slide-ride-1.mp3",
+   "gain": 0.9,
+   "reverb": 0.1
+  },
+  {
+   "cue": "slide.ride",
+   "file": "sfx/slide-ride-2.mp3",
+   "gain": 0.9,
+   "reverb": 0.1
+  },
+  {
+   "cue": "token",
+   "file": "sfx/token-1.mp3",
+   "gain": 0.9,
+   "reverb": 0.12
+  },
+  {
+   "cue": "fetter.throw",
+   "file": "sfx/fetter-throw-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "fetter.throw",
+   "file": "sfx/fetter-throw-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.1
+  },
+  {
+   "cue": "fetter.reel",
+   "file": "sfx/fetter-reel-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "fetter.reel",
+   "file": "sfx/fetter-reel-2.mp3",
+   "gain": 0.85,
+   "reverb": 0.1
+  },
+  {
+   "cue": "fetter.whirl",
+   "file": "sfx/fetter-whirl-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "cue": "fetter.whirl",
+   "file": "sfx/fetter-whirl-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "cue": "hero.held",
+   "file": "sfx/hero-held-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "hero.held",
+   "file": "sfx/hero-held-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "pyrausta.lob",
+   "file": "sfx/pyrausta-lob-1.mp3",
+   "gain": 0.9,
+   "reverb": 0.1
+  },
+  {
+   "cue": "pyrausta.lob",
+   "file": "sfx/pyrausta-lob-2.mp3",
+   "gain": 0.9,
+   "reverb": 0.1
+  },
+  {
+   "cue": "ember.burn",
+   "file": "sfx/ember-burn-1.mp3",
+   "gain": 0.7,
+   "reverb": 0.12
+  },
+  {
+   "cue": "ember.burn",
+   "file": "sfx/ember-burn-2.mp3",
+   "gain": 0.7,
+   "reverb": 0.12
+  },
+  {
+   "cue": "taxiarch.rally",
+   "file": "sfx/taxiarch-rally-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "taxiarch.rally",
+   "file": "sfx/taxiarch-rally-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.2
+  },
+  {
+   "cue": "jackal.pounce",
+   "file": "sfx/jackal-pounce-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "cue": "jackal.pounce",
+   "file": "sfx/jackal-pounce-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "cue": "oathbound.kneel",
+   "file": "sfx/oathbound-kneel-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.16
+  },
+  {
+   "cue": "oathbound.kneel",
+   "file": "sfx/oathbound-kneel-2.mp3",
+   "gain": 0.85,
+   "reverb": 0.16
+  },
+  {
+   "cue": "kick",
+   "file": "sfx/kick-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.18
+  },
+  {
+   "cue": "kick",
+   "file": "sfx/kick-4.mp3",
+   "gain": 1.0,
+   "reverb": 0.18
+  },
+  {
+   "cue": "kick",
+   "file": "sfx/kick-5.mp3",
+   "gain": 1.0,
+   "reverb": 0.18
+  },
+  {
+   "cue": "step",
+   "file": "sfx/step-7.mp3",
+   "gain": 0.55,
+   "reverb": 0.05
+  },
+  {
+   "cue": "step",
+   "file": "sfx/step-8.mp3",
+   "gain": 0.55,
+   "reverb": 0.05
+  },
+  {
+   "cue": "step",
+   "file": "sfx/step-9.mp3",
+   "gain": 0.55,
+   "reverb": 0.05
+  },
+  {
+   "cue": "step",
+   "file": "sfx/step-12.mp3",
+   "gain": 0.55,
+   "reverb": 0.05
+  },
+  {
+   "cue": "chest.strain",
+   "file": "sfx/chest-strain.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "chest.open",
+   "file": "sfx/chest-burst-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "chest.open",
+   "file": "sfx/chest-burst-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.26
+  },
+  {
+   "cue": "ui.move",
+   "file": "sfx/ui-move-1.mp3",
+   "gain": 1.3,
+   "reverb": 0.12
+  },
+  {
+   "cue": "ui.move",
+   "file": "sfx/ui-move-2.mp3",
+   "gain": 1.3,
+   "reverb": 0.12
+  },
+  {
+   "cue": "ui.confirm",
+   "file": "sfx/ui-select.mp3",
+   "gain": 1.0,
+   "reverb": 0.12
+  },
+  {
+   "cue": "ui.back",
+   "file": "sfx/ui-back.mp3",
+   "gain": 1.0,
+   "reverb": 0.12
+  },
+  {
+   "cue": "ui.deny",
+   "file": "sfx/ui-deny.mp3",
+   "gain": 1.0,
+   "reverb": 0.12
+  },
+  {
+   "cue": "nest.break",
+   "file": "sfx/nest-break-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.12
+  },
+  {
+   "cue": "piper.call",
+   "file": "sfx/piper-call-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.2
+  },
+  {
+   "cue": "piper.call",
+   "file": "sfx/piper-call-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.2
+  },
+  {
+   "cue": "gate.grind",
+   "file": "sfx/gate-grind-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.2
+  },
+  {
+   "cue": "molten.burn",
+   "file": "sfx/molten-burn-1.mp3",
+   "gain": 0.85,
+   "reverb": 0.12
+  }
+ ],
+ "music": [
+  {
+   "mode": "combat",
+   "file": "music/music-combat-b2.mp3",
+   "loopSeconds": 88.1288,
+   "gain": 1.0
+  },
+  {
+   "mode": "boss",
+   "file": "music/music-boss-b2.mp3",
+   "loopSeconds": 82.28683,
+   "gain": 1.0
+  },
+  {
+   "mode": "exploration",
+   "file": "music/music-explore-b2.mp3",
+   "loopSeconds": 93.93091,
+   "gain": 1.0
+  }
+ ],
+ "layers": [
+  {
+   "bank": "layer.voice.light",
+   "file": "sfx/voice-light-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.light",
+   "file": "sfx/voice-light-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.light",
+   "file": "sfx/voice-light-3.mp3",
+   "gain": 0.8,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.light",
+   "file": "sfx/voice-light-4.mp3",
+   "gain": 0.8,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.heavy",
+   "file": "sfx/voice-heavy-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.heavy",
+   "file": "sfx/voice-heavy-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.heavy",
+   "file": "sfx/voice-heavy-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.heavy",
+   "file": "sfx/voice-heavy-4.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.big",
+   "file": "sfx/voice-big-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.big",
+   "file": "sfx/voice-big-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.big",
+   "file": "sfx/voice-big-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.jump",
+   "file": "sfx/voice-jump-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.voice.jump",
+   "file": "sfx/voice-jump-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.enemy.pain",
+   "file": "sfx/enemy-pain-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.enemy.pain",
+   "file": "sfx/enemy-pain-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.enemy.pain",
+   "file": "sfx/enemy-pain-3.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.brute.pain",
+   "file": "sfx/brute-pain-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.brute.pain",
+   "file": "sfx/brute-pain-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.14
+  },
+  {
+   "bank": "layer.blade.fire",
+   "file": "sfx/blade-fire-2.mp3",
+   "gain": 0.75,
+   "reverb": 0.08
+  },
+  {
+   "bank": "layer.blade.fire",
+   "file": "sfx/blade-fire-3.mp3",
+   "gain": 0.75,
+   "reverb": 0.08
+  },
+  {
+   "bank": "layer.gore",
+   "file": "sfx/gore-1.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "bank": "layer.gore",
+   "file": "sfx/gore-2.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "bank": "layer.gore",
+   "file": "sfx/gore-3.mp3",
+   "gain": 0.8,
+   "reverb": 0.1
+  },
+  {
+   "bank": "layer.bodyfall",
+   "file": "sfx/bodyfall-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.18
+  },
+  {
+   "bank": "layer.bodyfall",
+   "file": "sfx/bodyfall-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.18
+  },
+  {
+   "bank": "layer.debris",
+   "file": "sfx/debris-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.22
+  },
+  {
+   "bank": "layer.debris",
+   "file": "sfx/debris-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.22
+  },
+  {
+   "bank": "layer.thunder",
+   "file": "sfx/thunder-1.mp3",
+   "gain": 1.0,
+   "reverb": 0.22
+  },
+  {
+   "bank": "layer.thunder",
+   "file": "sfx/thunder-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.22
+  },
+  {
+   "bank": "layer.stinger.clear",
+   "file": "sfx/stinger-clear.mp3",
+   "gain": 1.0,
+   "reverb": 0.0,
+   "bus": "music"
+  },
+  {
+   "bank": "layer.stinger.death",
+   "file": "sfx/stinger-death.mp3",
+   "gain": 1.0,
+   "reverb": 0.0,
+   "bus": "music"
+  },
+  {
+   "bank": "layer.stinger.rage",
+   "file": "sfx/stinger-rage.mp3",
+   "gain": 1.0,
+   "reverb": 0.0,
+   "bus": "music"
+  },
+  {
+   "bank": "layer.stinger.boss",
+   "file": "sfx/stinger-boss.mp3",
+   "gain": 1.0,
+   "reverb": 0.0,
+   "bus": "music"
+  },
+  {
+   "bank": "layer.stinger.kill",
+   "file": "sfx/stinger-kill.mp3",
+   "gain": 1.0,
+   "reverb": 0.0,
+   "bus": "music"
+  },
+  {
+   "bank": "layer.amb",
+   "file": "sfx/amb-underworld-2.mp3",
+   "gain": 1.0,
+   "reverb": 0.0
+  }
+ ],
+ "companions": {
+  "swing.light": [
+   {
+    "bank": "layer.voice.light",
+    "chance": 0.3,
+    "cooldown": 0.9,
+    "delay": 0.02
+   }
+  ],
+  "swing.heavy": [
+   {
+    "bank": "layer.blade.fire",
+    "gain": 0.7
+   },
+   {
+    "bank": "layer.voice.heavy",
+    "chance": 0.6,
+    "cooldown": 0.7,
+    "delay": 0.03
+   }
+  ],
+  "swing.spin": [
+   {
+    "bank": "layer.blade.fire",
+    "gain": 0.6
+   },
+   {
+    "bank": "layer.voice.heavy",
+    "chance": 0.4,
+    "cooldown": 1.0,
+    "delay": 0.03
+   }
+  ],
+  "kick": [
+   {
+    "bank": "layer.voice.heavy",
+    "chance": 0.7,
+    "cooldown": 0.6
+   }
+  ],
+  "launch": [
+   {
+    "bank": "layer.voice.big",
+    "chance": 0.8,
+    "cooldown": 1.2
+   }
+  ],
+  "slam": [
+   {
+    "bank": "layer.debris",
+    "gain": 0.9
+   },
+   {
+    "bank": "layer.voice.big",
+    "chance": 0.5,
+    "cooldown": 1.5
+   }
+  ],
+  "jump": [
+   {
+    "bank": "layer.voice.jump",
+    "chance": 0.5,
+    "cooldown": 0.8
+   }
+  ],
+  "hit.bone": [
+   {
+    "bank": "layer.enemy.pain",
+    "chance": 0.35,
+    "cooldown": 0.4,
+    "delay": 0.04
+   },
+   {
+    "bank": "layer.gore",
+    "chance": 0.5,
+    "minStrength": 1.2
+   }
+  ],
+  "hit.armor": [
+   {
+    "bank": "layer.brute.pain",
+    "chance": 0.3,
+    "cooldown": 0.8,
+    "delay": 0.05
+   },
+   {
+    "bank": "layer.gore",
+    "chance": 0.3,
+    "minStrength": 1.2
+   }
+  ],
+  "hit.flesh": [
+   {
+    "bank": "layer.gore",
+    "chance": 0.6
+   }
+  ],
+  "enemy.die": [
+   {
+    "bank": "layer.gore"
+   },
+   {
+    "bank": "layer.bodyfall",
+    "gain": 0.8,
+    "delay": 0.25
+   }
+  ],
+  "land": [
+   {
+    "bank": "layer.bodyfall",
+    "minStrength": 0.9,
+    "gain": 0.9
+   }
+  ],
+  "tear": [
+   {
+    "bank": "layer.gore",
+    "gain": 1.1
+   },
+   {
+    "bank": "layer.stinger.kill",
+    "gain": 0.9
+   }
+  ],
+  "finisher": [
+   {
+    "bank": "layer.stinger.kill",
+    "gain": 0.9
+   }
+  ],
+  "magic.storm": [
+   {
+    "bank": "layer.thunder",
+    "gain": 0.85,
+    "delay": 0.06,
+    "cooldown": 0.35
+   }
+  ],
+  "rage.start": [
+   {
+    "bank": "layer.stinger.rage",
+    "gain": 0.9
+   },
+   {
+    "bank": "layer.voice.big"
+   }
+  ],
+  "barrier.open": [
+   {
+    "bank": "layer.stinger.clear",
+    "gain": 0.85,
+    "cooldown": 5
+   }
+  ],
+  "death": [
+   {
+    "bank": "layer.stinger.death",
+    "gain": 0.9
+   }
+  ],
+  "boss.roar": [
+   {
+    "bank": "layer.stinger.boss",
+    "gain": 0.9,
+    "cooldown": 30
+   }
+  ],
+  "chest.strain": [
+   {
+    "bank": "layer.voice.heavy",
+    "chance": 1,
+    "delay": 0.12
+   }
+  ],
+  "chest.open": [
+   {
+    "bank": "layer.voice.big",
+    "chance": 1,
+    "delay": 0.02
+   }
+  ],
+  "cyclops.slam": [
+   {
+    "bank": "layer.debris",
+    "gain": 0.9
+   }
+  ],
+  "lift.latch": [
+   {
+    "bank": "layer.debris",
+    "gain": 0.6
+   }
+  ]
+ },
+ "duck": {
+  "rage.start": {
+   "depth": 0.3,
+   "seconds": 1.2
+  },
+  "barrier.open": {
+   "depth": 0.35,
+   "seconds": 2.6
+  },
+  "death": {
+   "depth": 0.25,
+   "seconds": 3.5
+  },
+  "boss.roar": {
+   "depth": 0.45,
+   "seconds": 1.6
+  },
+  "slam": {
+   "depth": 0.7,
+   "seconds": 0.35
+  },
+  "tear": {
+   "depth": 0.5,
+   "seconds": 0.8
+  },
+  "chest.open": {
+   "depth": 0.4,
+   "seconds": 1.8
+  },
+  "cyclops.slam": {
+   "depth": 0.7,
+   "seconds": 0.35
+  },
+  "cyclops.roar": {
+   "depth": 0.45,
+   "seconds": 1.6
+  }
+ },
+ "ambience": {
+  "bank": "layer.amb",
+  "gain": 0.32
+ }
+}
