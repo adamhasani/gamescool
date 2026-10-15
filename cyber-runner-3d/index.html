@@ -1062,15 +1062,9 @@
           vec2 dir = uv - center;
           float dist = length(dir);
 
-          // Contrast Adaptive Sharpening (Ultra-Crisp HD Geometry)
-          vec2 texel = 1.0 / uResolution;
+          // Fast HD Base Color Tap
           vec4 colC = texture2D(tDiffuse, uv);
-          vec4 colU = texture2D(tDiffuse, uv + vec2(0.0, texel.y));
-          vec4 colD = texture2D(tDiffuse, uv - vec2(0.0, texel.y));
-          vec4 colL = texture2D(tDiffuse, uv - vec2(texel.x, 0.0));
-          vec4 colR = texture2D(tDiffuse, uv + vec2(texel.x, 0.0));
-          vec4 sharpCol = colC * 5.0 - (colU + colD + colL + colR);
-          vec3 baseColor = mix(colC.rgb, sharpCol.rgb, 0.15);
+          vec3 baseColor = colC.rgb;
 
           // Real-Time Screen-Space Reflection (SSR) for Wet Road Surface
           if (uv.y < 0.44 && abs(uv.x - 0.5) < 0.42) {
@@ -1091,18 +1085,14 @@
             baseColor = mix(baseColor, reflColor * 1.15, roadPuddleWetness);
           }
 
-          // Chromatic Aberration on G-force & Afterburner
-          float edgeFalloff = pow(dist * 1.3, 2.4);
-          float abAmount = (uAberration * 0.005 + uBoost * 0.004 + uDrift * 0.002) * edgeFalloff;
-
-          vec2 redUv = uv + dir * abAmount;
-          vec2 blueUv = uv - dir * abAmount;
-
-          float r = texture2D(tDiffuse, redUv).r;
-          float g = baseColor.g;
-          float b = texture2D(tDiffuse, blueUv).b;
-
-          vec3 color = vec3(r, g, b);
+          // Fast Chromatic Aberration only when active
+          vec3 color = baseColor;
+          float abAmount = (uAberration * 0.005 + uBoost * 0.004 + uDrift * 0.002) * pow(dist * 1.3, 2.0);
+          if (abAmount > 0.0005) {
+            float r = texture2D(tDiffuse, uv + dir * abAmount).r;
+            float b = texture2D(tDiffuse, uv - dir * abAmount).b;
+            color = vec3(r, baseColor.g, b);
+          }
 
           // Radial Speed Blur on Afterburner
           float blurStrength = uBoost * 0.25 + uDrift * 0.12;
@@ -1349,6 +1339,125 @@
     const gantrySignTex3 = generateIndustrialSignTexture('HAZARD DETECTED', 'AUTOMATED BLAST SYSTEM', '#ff1e38');
     const gantrySignTextures = [gantrySignTex1, gantrySignTex2, gantrySignTex3];
 
+    // Procedural Shipping Container Corrugated Texture for Cyber-Hauler
+    function generateContainerTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+
+      // Base military/industrial olive-graphite tone
+      ctx.fillStyle = '#1c2430';
+      ctx.fillRect(0, 0, 512, 256);
+
+      // Corrugated vertical metal ribbing
+      for (let x = 0; x < 512; x += 16) {
+        ctx.fillStyle = '#121822';
+        ctx.fillRect(x, 0, 8, 256);
+        ctx.fillStyle = '#263242';
+        ctx.fillRect(x + 8, 0, 8, 256);
+      }
+
+      // Industrial Hazard Border
+      ctx.fillStyle = 'rgba(255, 170, 0, 0.85)';
+      ctx.fillRect(0, 240, 512, 16);
+      ctx.fillRect(0, 0, 512, 16);
+
+      // Corporate Logistics Branding Banner
+      ctx.fillStyle = '#0a0d14';
+      ctx.fillRect(40, 60, 432, 136);
+      ctx.strokeStyle = '#ff6a00';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(40, 60, 432, 136);
+
+      ctx.font = '900 24px monospace';
+      ctx.fillStyle = '#ff6a00';
+      ctx.fillText('CYBER-LOGISTICS // HAZMAT', 60, 110);
+
+      ctx.font = '700 14px monospace';
+      ctx.fillStyle = '#7d90a0';
+      ctx.fillText('CLASS 9 // QUANTUM ISOTOPE TRANSPORT', 60, 142);
+      ctx.fillText('REG ID: 884-TK-902 // SECTOR 04', 60, 168);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+    const containerTex = generateContainerTexture();
+
+    // Procedural Hazard Striping (45-degree yellow & black safety tape)
+    function generateHazardTapeTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffaa00';
+      ctx.fillRect(0, 0, 256, 64);
+      ctx.fillStyle = '#11141a';
+      for (let x = -64; x < 256 + 64; x += 32) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x + 16, 0);
+        ctx.lineTo(x + 16 + 64, 64);
+        ctx.lineTo(x + 64, 64);
+        ctx.closePath();
+        ctx.fill();
+      }
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(2, 1);
+      return tex;
+    }
+    const hazardTex = generateHazardTapeTexture();
+
+    // Procedural Speed Boost Chevron Arrow Texture
+    function generateBoostChevronTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(10, 14, 20, 0.9)';
+      ctx.fillRect(0, 0, 256, 512);
+
+      // Glowing multi-tier chevron arrows
+      for (let y = 60; y < 512; y += 120) {
+        ctx.save();
+        ctx.shadowColor = '#ff6a00';
+        ctx.shadowBlur = 18;
+        ctx.fillStyle = '#ff6a00';
+        ctx.beginPath();
+        ctx.moveTo(128, y - 40);
+        ctx.lineTo(210, y + 25);
+        ctx.lineTo(175, y + 25);
+        ctx.lineTo(128, y - 12);
+        ctx.lineTo(81, y + 25);
+        ctx.lineTo(46, y + 25);
+        ctx.closePath();
+        ctx.fill();
+
+        // Inner white-hot chevron core
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(128, y - 30);
+        ctx.lineTo(190, y + 20);
+        ctx.lineTo(170, y + 20);
+        ctx.lineTo(128, y - 5);
+        ctx.lineTo(86, y + 20);
+        ctx.lineTo(66, y + 20);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+    const boostChevronTex = generateBoostChevronTexture();
+
     // --- 4. THREE.JS SCENE SETUP, SHADOW MAPS & 4X MSAA COMPOSER ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
@@ -1359,7 +1468,7 @@
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.22;
     renderer.shadowMap.enabled = true;
@@ -1959,86 +2068,618 @@
       trackSegments.push(createSegment(-i * SEGMENT_LENGTH, i));
     }
 
+    // --- 6B. ULTRA-HD VEHICLE & INFRASTRUCTURE ASSET FACTORIES ---
+
+    // 1. ULTRA-HD MAG-LEV FREIGHT HAULER TRUCK
+    function buildHDHaulerTruck() {
+      const truck = new THREE.Group();
+
+      // CAB CHASSIS & HOOD
+      const cabGroup = new THREE.Group();
+
+      // Angular Armored Cab Body
+      const cabShape = new THREE.Shape();
+      cabShape.moveTo(0, 0);
+      cabShape.lineTo(2.4, 0);
+      cabShape.lineTo(2.4, 1.4);
+      cabShape.lineTo(1.6, 2.5); // Slanted aerodynamic nose
+      cabShape.lineTo(-0.2, 2.5);
+      cabShape.lineTo(-0.2, 0);
+      cabShape.closePath();
+
+      const cabSettings = { depth: 2.8, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.06, bevelThickness: 0.06 };
+      const cabGeo = new THREE.ExtrudeGeometry(cabShape, cabSettings);
+      const cabMat = new THREE.MeshPhysicalMaterial({
+        color: 0x1b222d,
+        metalness: 0.90,
+        roughness: 0.25,
+        clearcoat: 0.6,
+        clearcoatRoughness: 0.2
+      });
+      const cabMesh = new THREE.Mesh(cabGeo, cabMat);
+      cabMesh.rotation.y = Math.PI / 2;
+      cabMesh.position.set(1.4, 0.45, -0.6);
+      cabMesh.castShadow = true;
+      cabMesh.receiveShadow = true;
+      cabGroup.add(cabMesh);
+
+      // Armored Aerodynamic Roof Air Deflector Fairing
+      const deflectorGeo = new THREE.BoxGeometry(2.7, 0.6, 1.6);
+      const deflectorMat = new THREE.MeshStandardMaterial({ color: 0x141a24, metalness: 0.85, roughness: 0.3 });
+      const deflector = new THREE.Mesh(deflectorGeo, deflectorMat);
+      deflector.rotation.x = -0.35;
+      deflector.position.set(0, 3.1, -1.2);
+      cabGroup.add(deflector);
+
+      // Dark Reflective Wraparound Windshield Visor
+      const glassGeo = new THREE.BoxGeometry(2.65, 0.95, 1.3);
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x05080e,
+        metalness: 0.95,
+        roughness: 0.05,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.02,
+        transparent: true,
+        opacity: 0.88
+      });
+      const glass = new THREE.Mesh(glassGeo, glassMat);
+      glass.rotation.x = -0.42;
+      glass.position.set(0, 2.2, -2.05);
+      cabGroup.add(glass);
+
+      // Heavy Steel Front Bull-Bar Grille & Bumper
+      const bumperGeo = new THREE.BoxGeometry(2.9, 0.6, 0.5);
+      const bumperMat = new THREE.MeshStandardMaterial({ color: 0x101318, metalness: 0.95, roughness: 0.2 });
+      const bumper = new THREE.Mesh(bumperGeo, bumperMat);
+      bumper.position.set(0, 0.6, -3.1);
+      bumper.castShadow = true;
+      cabGroup.add(bumper);
+
+      const grilleBarGeo = new THREE.CylinderGeometry(0.06, 0.06, 2.7, 8);
+      const grilleBarMat = new THREE.MeshStandardMaterial({ color: 0x666666, metalness: 0.98, roughness: 0.1 });
+      const gBar1 = new THREE.Mesh(grilleBarGeo, grilleBarMat);
+      gBar1.rotation.z = Math.PI / 2;
+      gBar1.position.set(0, 1.1, -3.15);
+      cabGroup.add(gBar1);
+
+      // High-Intensity Xenon Headlight Clusters (Forward Lenses)
+      const lightGeo = new THREE.BoxGeometry(0.5, 0.2, 0.1);
+      const lightMat = new THREE.MeshBasicMaterial({ color: 0xe8f4ff });
+      const headL = new THREE.Mesh(lightGeo, lightMat);
+      headL.position.set(-1.0, 0.65, -3.36);
+      cabGroup.add(headL);
+
+      const headR = headL.clone();
+      headR.position.x = 1.0;
+      cabGroup.add(headR);
+
+      // Amber Roof Clearance Lights (5 Marker LEDs)
+      for (let i = -2; i <= 2; i++) {
+        const markerGeo = new THREE.BoxGeometry(0.12, 0.06, 0.1);
+        const markerMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+        const marker = new THREE.Mesh(markerGeo, markerMat);
+        marker.position.set(i * 0.45, 2.95, -2.2);
+        cabGroup.add(marker);
+      }
+
+      // Vertical Chrome Dual Exhaust Stacks
+      const stackGeo = new THREE.CylinderGeometry(0.1, 0.1, 3.2, 10);
+      const stackMat = new THREE.MeshStandardMaterial({ color: 0xd0d5dd, metalness: 0.98, roughness: 0.1 });
+      const stackL = new THREE.Mesh(stackGeo, stackMat);
+      stackL.position.set(-1.3, 2.3, -0.6);
+      cabGroup.add(stackL);
+
+      const stackR = stackL.clone();
+      stackR.position.x = 1.3;
+      cabGroup.add(stackR);
+
+      truck.add(cabGroup);
+
+      // ARTICULATED CARGO TRAILER
+      const trailerGroup = new THREE.Group();
+
+      // Main Corrugated Container Body
+      const containerGeo = new THREE.BoxGeometry(3.0, 2.6, 5.6);
+      const containerMat = new THREE.MeshStandardMaterial({
+        map: containerTex,
+        roughness: 0.55,
+        metalness: 0.65
+      });
+      const containerMesh = new THREE.Mesh(containerGeo, containerMat);
+      containerMesh.position.set(0, 2.0, 2.4);
+      containerMesh.castShadow = true;
+      containerMesh.receiveShadow = true;
+      trailerGroup.add(containerMesh);
+
+      // Hazard Safety Skirting along Trailer Base
+      const skirtGeo = new THREE.BoxGeometry(3.05, 0.25, 5.6);
+      const skirtMat = new THREE.MeshStandardMaterial({ map: hazardTex, roughness: 0.5 });
+      const skirt = new THREE.Mesh(skirtGeo, skirtMat);
+      skirt.position.set(0, 0.6, 2.4);
+      trailerGroup.add(skirt);
+
+      // Rear Cargo Double Doors & Chrome Lock Bars
+      const lockBarGeo = new THREE.CylinderGeometry(0.04, 0.04, 2.2, 8);
+      const bar1 = new THREE.Mesh(lockBarGeo, stackMat);
+      bar1.position.set(-0.5, 2.0, 5.22);
+      trailerGroup.add(bar1);
+
+      const bar2 = new THREE.Mesh(lockBarGeo, stackMat);
+      bar2.position.set(0.5, 2.0, 5.22);
+      trailerGroup.add(bar2);
+
+      // High-Visibility Rear LED Lighting Bar (Brake, Turn, Reverse)
+      const brakeGeo = new THREE.BoxGeometry(1.0, 0.18, 0.1);
+      const brakeMat = new THREE.MeshBasicMaterial({ color: 0xff1e38 });
+      const tailL = new THREE.Mesh(brakeGeo, brakeMat);
+      tailL.position.set(-0.95, 0.62, 5.22);
+      trailerGroup.add(tailL);
+
+      const tailR = tailL.clone();
+      tailR.position.x = 0.95;
+      trailerGroup.add(tailR);
+
+      // High-mounted third brake light bar
+      const topBrakeGeo = new THREE.BoxGeometry(1.6, 0.1, 0.08);
+      const topBrake = new THREE.Mesh(topBrakeGeo, brakeMat);
+      topBrake.position.set(0, 3.25, 5.22);
+      trailerGroup.add(topBrake);
+
+      // Front Trailer Refrigeration Generator Unit with Cooling Fan
+      const reeferGeo = new THREE.BoxGeometry(1.8, 1.2, 0.5);
+      const reeferMat = new THREE.MeshStandardMaterial({ color: 0x141820, metalness: 0.8 });
+      const reefer = new THREE.Mesh(reeferGeo, reeferMat);
+      reefer.position.set(0, 2.5, -0.65);
+      trailerGroup.add(reefer);
+
+      const fanGeo = new THREE.CylinderGeometry(0.35, 0.35, 0.06, 6);
+      const fan = new THREE.Mesh(fanGeo, stackMat);
+      fan.rotation.x = Math.PI / 2;
+      fan.position.set(0, 2.5, -0.92);
+      trailerGroup.add(fan);
+      trailerGroup.reeferFan = fan;
+
+      truck.add(trailerGroup);
+
+      // 6 HEAVY MAG-LEV HOVER REPULSOR PODS UNDER CHASSIS
+      const repulsorGroup = new THREE.Group();
+      const podPositions = [
+        [-1.35, 0.38, -2.2], [1.35, 0.38, -2.2], // Cab front
+        [-1.35, 0.38, 1.2],  [1.35, 0.38, 1.2],  // Trailer mid
+        [-1.35, 0.38, 3.8],  [1.35, 0.38, 3.8]   // Trailer rear
+      ];
+
+      const podBodyGeo = new THREE.BoxGeometry(0.45, 0.35, 1.1);
+      const podBodyMat = new THREE.MeshStandardMaterial({ color: 0x121620, metalness: 0.9, roughness: 0.3 });
+      const ringGeo = new THREE.TorusGeometry(0.24, 0.04, 6, 16);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+
+      for (const pos of podPositions) {
+        const pod = new THREE.Mesh(podBodyGeo, podBodyMat);
+        pod.position.set(pos[0], pos[1], pos[2]);
+        repulsorGroup.add(pod);
+
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI / 2;
+        ring.position.set(pos[0], pos[1] - 0.16, pos[2]);
+        repulsorGroup.add(ring);
+      }
+      truck.add(repulsorGroup);
+
+      // Heavy Ground Ambient Contact Shadow
+      const shadowGeo = new THREE.PlaneGeometry(3.6, 9.2);
+      const shadowCanvas = document.createElement('canvas');
+      shadowCanvas.width = 128;
+      shadowCanvas.height = 128;
+      const sCtx = shadowCanvas.getContext('2d');
+      const grad = sCtx.createRadialGradient(64, 64, 10, 64, 64, 60);
+      grad.addColorStop(0, 'rgba(0, 0, 0, 0.95)');
+      grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.5)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, 128, 128);
+      const sTex = new THREE.CanvasTexture(shadowCanvas);
+      const shadowMat = new THREE.MeshBasicMaterial({ map: sTex, transparent: true, opacity: 0.92, depthWrite: false });
+      const shadow = new THREE.Mesh(shadowGeo, shadowMat);
+      shadow.rotation.x = -Math.PI / 2;
+      shadow.position.set(0, 0.02, 1.2);
+      truck.add(shadow);
+
+      truck.position.y = 0;
+      return truck;
+    }
+
+    // 2. ULTRA-HD HIGH-SPEED CYBER POLICE INTERCEPTOR CAR
+    function buildHDPatrolCar() {
+      const car = new THREE.Group();
+
+      // Sleek Wedge Sports Chassis
+      const chassisShape = new THREE.Shape();
+      chassisShape.moveTo(0, 0);
+      chassisShape.lineTo(1.8, 0);
+      chassisShape.lineTo(1.8, 0.55);
+      chassisShape.lineTo(1.1, 0.95);
+      chassisShape.lineTo(-0.6, 0.95);
+      chassisShape.lineTo(-1.8, 0.35); // Sharp front nose
+      chassisShape.lineTo(-1.8, 0);
+      chassisShape.closePath();
+
+      const chassisSettings = { depth: 2.1, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.07, bevelThickness: 0.07 };
+      const chassisGeo = new THREE.ExtrudeGeometry(chassisShape, chassisSettings);
+      const chassisMat = new THREE.MeshPhysicalMaterial({
+        color: 0x091424, // Midnight aerospace law enforcement blue
+        metalness: 0.92,
+        roughness: 0.18,
+        clearcoat: 0.95,
+        clearcoatRoughness: 0.1
+      });
+      const chassis = new THREE.Mesh(chassisGeo, chassisMat);
+      chassis.rotation.y = -Math.PI / 2;
+      chassis.position.set(1.05, 0.28, 0);
+      chassis.castShadow = true;
+      chassis.receiveShadow = true;
+      car.add(chassis);
+
+      // Contrast White Interceptor Livery Door Panels
+      const liveryGeo = new THREE.BoxGeometry(2.14, 0.35, 1.8);
+      const liveryMat = new THREE.MeshStandardMaterial({ color: 0xedf2f7, roughness: 0.3, metalness: 0.7 });
+      const livery = new THREE.Mesh(liveryGeo, liveryMat);
+      livery.position.set(0, 0.55, 0.1);
+      car.add(livery);
+
+      // Polarized Cockpit Canopy (Dark Glass)
+      const canopyGeo = new THREE.ConeGeometry(0.7, 1.8, 12);
+      const canopyMat = new THREE.MeshPhysicalMaterial({
+        color: 0x03060a,
+        metalness: 0.98,
+        roughness: 0.03,
+        clearcoat: 1.0,
+        transparent: true,
+        opacity: 0.88
+      });
+      const canopy = new THREE.Mesh(canopyGeo, canopyMat);
+      canopy.rotation.x = -Math.PI / 2;
+      canopy.scale.set(1.2, 0.55, 1.0);
+      canopy.position.set(0, 0.98, 0.1);
+      car.add(canopy);
+
+      // Carbon Fiber Rear Aerodynamic Wing / Spoiler
+      const wingGeo = new THREE.BoxGeometry(2.3, 0.06, 0.45);
+      const wingMat = new THREE.MeshPhysicalMaterial({ color: 0x0d1016, map: carbonTex, metalness: 0.9, roughness: 0.25 });
+      const wing = new THREE.Mesh(wingGeo, wingMat);
+      wing.position.set(0, 1.25, 1.6);
+      car.add(wing);
+
+      const wingStrutGeo = new THREE.BoxGeometry(0.06, 0.4, 0.2);
+      const wStrutL = new THREE.Mesh(wingStrutGeo, wingMat);
+      wStrutL.position.set(-0.7, 1.05, 1.6);
+      car.add(wStrutL);
+
+      const wStrutR = wStrutL.clone();
+      wStrutR.position.x = 0.7;
+      car.add(wStrutR);
+
+      // Rooftop Police Emergency Lightbar (Dual-Color Strobe)
+      const lightbarGeo = new THREE.BoxGeometry(1.2, 0.12, 0.22);
+      const barFrameMat = new THREE.MeshStandardMaterial({ color: 0x111620, metalness: 0.95 });
+      const lightbarFrame = new THREE.Mesh(lightbarGeo, barFrameMat);
+      lightbarFrame.position.set(0, 1.35, 0.1);
+      car.add(lightbarFrame);
+
+      const strobeGeo = new THREE.BoxGeometry(0.5, 0.14, 0.24);
+      const strobeBlueMat = new THREE.MeshBasicMaterial({ color: 0x0088ff });
+      const strobeBlue = new THREE.Mesh(strobeGeo, strobeBlueMat);
+      strobeBlue.position.set(-0.3, 1.35, 0.1);
+      car.add(strobeBlue);
+      car.strobeBlue = strobeBlue;
+
+      const strobeRedMat = new THREE.MeshBasicMaterial({ color: 0xff1e38 });
+      const strobeRed = new THREE.Mesh(strobeGeo, strobeRedMat);
+      strobeRed.position.set(0.3, 1.35, 0.1);
+      car.add(strobeRed);
+      car.strobeRed = strobeRed;
+
+      // Front LED Blade Headlights
+      const bladeGeo = new THREE.BoxGeometry(0.8, 0.08, 0.1);
+      const bladeMat = new THREE.MeshBasicMaterial({ color: 0xe0f7ff });
+      const headBladeL = new THREE.Mesh(bladeGeo, bladeMat);
+      headBladeL.position.set(-0.65, 0.45, -1.82);
+      car.add(headBladeL);
+
+      const headBladeR = headBladeL.clone();
+      headBladeR.position.x = 0.65;
+      car.add(headBladeR);
+
+      // Rear Quad Horizontal Neon Taillights & Cyan Ion Thrusters
+      const tailBladeGeo = new THREE.BoxGeometry(0.9, 0.08, 0.1);
+      const tailBladeMat = new THREE.MeshBasicMaterial({ color: 0xff1e38 });
+      const tailL = new THREE.Mesh(tailBladeGeo, tailBladeMat);
+      tailL.position.set(-0.55, 0.58, 1.82);
+      car.add(tailL);
+
+      const tailR = tailL.clone();
+      tailR.position.x = 0.55;
+      car.add(tailR);
+
+      // Dual Hover Thrusters Exhaust
+      const thrusterGeo = new THREE.ConeGeometry(0.18, 0.6, 8);
+      const thrusterMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, blending: THREE.AdditiveBlending });
+      const jetL = new THREE.Mesh(thrusterGeo, thrusterMat);
+      jetL.rotation.x = -Math.PI / 2;
+      jetL.position.set(-0.6, 0.38, 2.0);
+      car.add(jetL);
+
+      const jetR = jetL.clone();
+      jetR.position.x = 0.6;
+      car.add(jetR);
+
+      // Contact Ground Shadow
+      const shadowGeo = new THREE.PlaneGeometry(2.8, 4.6);
+      const shadowCanvas = document.createElement('canvas');
+      shadowCanvas.width = 128;
+      shadowCanvas.height = 128;
+      const sCtx = shadowCanvas.getContext('2d');
+      const grad = sCtx.createRadialGradient(64, 64, 10, 64, 64, 60);
+      grad.addColorStop(0, 'rgba(0, 0, 0, 0.95)');
+      grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.5)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, 128, 128);
+      const sTex = new THREE.CanvasTexture(shadowCanvas);
+      const shadowMat = new THREE.MeshBasicMaterial({ map: sTex, transparent: true, opacity: 0.92, depthWrite: false });
+      const shadow = new THREE.Mesh(shadowGeo, shadowMat);
+      shadow.rotation.x = -Math.PI / 2;
+      shadow.position.set(0, 0.02, 0);
+      car.add(shadow);
+
+      return car;
+    }
+
+    // 3. ULTRA-HD HYDRAULIC BLAST BARRIER WITH WORKING PISTONS
+    function buildHDBlastDoor() {
+      const doorGroup = new THREE.Group();
+
+      // Reinforced Concrete Anchor Base Pedestals
+      const baseGeo = new THREE.BoxGeometry(0.7, 1.6, 1.4);
+      const baseMat = new THREE.MeshStandardMaterial({ color: 0x181c24, roughness: 0.85, metalness: 0.4 });
+      const baseL = new THREE.Mesh(baseGeo, baseMat);
+      baseL.position.set(-1.8, 0.8, 0);
+      baseL.castShadow = true;
+      doorGroup.add(baseL);
+
+      const baseR = baseL.clone();
+      baseR.position.x = 1.8;
+      doorGroup.add(baseR);
+
+      // Interlocking Heavy Steel Blast Teeth
+      const plateGeo = new THREE.BoxGeometry(3.0, 1.3, 0.5);
+      const plateMat = new THREE.MeshPhysicalMaterial({
+        color: 0x1f2632,
+        metalness: 0.92,
+        roughness: 0.22,
+        clearcoat: 0.5
+      });
+      const mainPlate = new THREE.Mesh(plateGeo, plateMat);
+      mainPlate.position.set(0, 0.85, 0);
+      mainPlate.castShadow = true;
+      mainPlate.receiveShadow = true;
+      doorGroup.add(mainPlate);
+
+      // 45-Degree Safety Hazard Striping Tape
+      const hazardGeo = new THREE.BoxGeometry(3.02, 0.35, 0.52);
+      const hazardPlateMat = new THREE.MeshStandardMaterial({ map: hazardTex, roughness: 0.4 });
+      const hazardPlate = new THREE.Mesh(hazardGeo, hazardPlateMat);
+      hazardPlate.position.set(0, 0.85, 0);
+      doorGroup.add(hazardPlate);
+
+      // Chrome Hydraulic Pneumatic Rams Linking Pillars to Plate
+      const pistonGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.9, 8);
+      const pistonMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 0.98, roughness: 0.08 });
+      const pL = new THREE.Mesh(pistonGeo, pistonMat);
+      pL.rotation.z = Math.PI / 2;
+      pL.position.set(-1.4, 1.1, 0);
+      doorGroup.add(pL);
+
+      const pR = pL.clone();
+      pR.position.x = 1.4;
+      doorGroup.add(pR);
+
+      // Flashing Rotating Warning Beacons on Top
+      const beaconGeo = new THREE.SphereGeometry(0.18, 8, 8);
+      const beaconMatL = new THREE.MeshBasicMaterial({ color: 0xff1e38 });
+      const beaconL = new THREE.Mesh(beaconGeo, beaconMatL);
+      beaconL.position.set(-1.8, 1.7, 0);
+      doorGroup.add(beaconL);
+      doorGroup.beaconL = beaconL;
+
+      const beaconMatR = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+      const beaconR = new THREE.Mesh(beaconGeo, beaconMatR);
+      beaconR.position.set(1.8, 1.7, 0);
+      doorGroup.add(beaconR);
+      doorGroup.beaconR = beaconR;
+
+      return doorGroup;
+    }
+
+    // 4. ULTRA-HD TESLA HIGH-VOLTAGE SUBSTATION & LIGHTNING ARC
+    function buildHDEMArc() {
+      const arcGroup = new THREE.Group();
+
+      // Pylon Factory with Porcelain Ceramic Insulator Rings
+      function createSubstationPylon(xPos) {
+        const pylon = new THREE.Group();
+
+        // Concrete transformer base
+        const baseGeo = new THREE.BoxGeometry(0.7, 0.8, 0.7);
+        const baseMat = new THREE.MeshStandardMaterial({ color: 0x161a22, roughness: 0.85 });
+        const base = new THREE.Mesh(baseGeo, baseMat);
+        base.position.y = 0.4;
+        base.castShadow = true;
+        pylon.add(base);
+
+        // Steel Mast
+        const mastGeo = new THREE.CylinderGeometry(0.16, 0.22, 3.2, 8);
+        const mastMat = new THREE.MeshStandardMaterial({ color: 0x222a36, metalness: 0.9 });
+        const mast = new THREE.Mesh(mastGeo, mastMat);
+        mast.position.y = 2.0;
+        mast.castShadow = true;
+        pylon.add(mast);
+
+        // Stacked Ceramic Insulator Discs
+        const ringGeo = new THREE.TorusGeometry(0.24, 0.05, 6, 14);
+        const ringMat = new THREE.MeshStandardMaterial({ color: 0x8898a8, roughness: 0.2, metalness: 0.6 });
+        for (let y = 2.8; y <= 3.5; y += 0.22) {
+          const ring = new THREE.Mesh(ringGeo, ringMat);
+          ring.rotation.x = Math.PI / 2;
+          ring.position.y = y;
+          pylon.add(ring);
+        }
+
+        // Terminal Electrode Sphere
+        const electroGeo = new THREE.SphereGeometry(0.26, 12, 12);
+        const electroMat = new THREE.MeshStandardMaterial({ color: 0xd0e8ff, metalness: 0.98, roughness: 0.05 });
+        const electro = new THREE.Mesh(electroGeo, electroMat);
+        electro.position.y = 3.7;
+        pylon.add(electro);
+
+        pylon.position.x = xPos;
+        return pylon;
+      }
+
+      const pylon1 = createSubstationPylon(-1.85);
+      arcGroup.add(pylon1);
+
+      const pylon2 = createSubstationPylon(1.85);
+      arcGroup.add(pylon2);
+
+      // Jagged Animated Lightning Arc Geometry
+      const arcPoints = [];
+      const segCount = 10;
+      for (let i = 0; i <= segCount; i++) {
+        const t = i / segCount;
+        arcPoints.push(new THREE.Vector3(-1.85 + t * 3.7, 3.7 + (Math.random() - 0.5) * 0.35, (Math.random() - 0.5) * 0.35));
+      }
+      const arcCurve = new THREE.CatmullRomCurve3(arcPoints);
+      const arcGeo = new THREE.TubeGeometry(arcCurve, 16, 0.08, 6, false);
+      const arcMat = new THREE.MeshBasicMaterial({ color: 0x90f0ff, blending: THREE.AdditiveBlending });
+      const arcMesh = new THREE.Mesh(arcGeo, arcMat);
+      arcGroup.add(arcMesh);
+      arcGroup.arc = arcMesh;
+
+      return arcGroup;
+    }
+
+    // 5. ULTRA-HD MULTI-TIER GYROSCOPIC ION CORE REACTOR
+    function buildHDIonCore() {
+      const coreGroup = new THREE.Group();
+
+      // Pulsing Translucent Quantum Core
+      const coreGeo = new THREE.IcosahedronGeometry(0.55, 2);
+      const coreMat = new THREE.MeshPhysicalMaterial({
+        color: 0xff6a00,
+        emissive: 0xff4400,
+        emissiveIntensity: 1.2,
+        roughness: 0.1,
+        metalness: 0.8,
+        clearcoat: 1.0,
+        transparent: true,
+        opacity: 0.92
+      });
+      const core = new THREE.Mesh(coreGeo, coreMat);
+      core.position.y = 1.15;
+      coreGroup.add(core);
+      coreGroup.rotator = core;
+
+      // Middle Counter-Rotating Titanium Gimbal Ring
+      const midRingGeo = new THREE.TorusGeometry(0.85, 0.05, 8, 24);
+      const midRingMat = new THREE.MeshStandardMaterial({ color: 0xdde4ec, metalness: 0.95, roughness: 0.15 });
+      const midRing = new THREE.Mesh(midRingGeo, midRingMat);
+      midRing.position.y = 1.15;
+      coreGroup.add(midRing);
+      coreGroup.midRing = midRing;
+
+      // Outer Carbon-Fiber Magnetic Containment Ring with Glowing LED Nodes
+      const outerRingGeo = new THREE.TorusGeometry(1.15, 0.06, 8, 30);
+      const outerRingMat = new THREE.MeshStandardMaterial({ color: 0x141822, metalness: 0.85, roughness: 0.3 });
+      const outerRing = new THREE.Mesh(outerRingGeo, outerRingMat);
+      outerRing.position.y = 1.15;
+      coreGroup.add(outerRing);
+      coreGroup.ring = outerRing;
+
+      // Orbital Magnetic Flux Energy Nodes
+      const nodeGeo = new THREE.SphereGeometry(0.08, 8, 8);
+      const nodeMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+      const node1 = new THREE.Mesh(nodeGeo, nodeMat);
+      node1.position.set(1.15, 1.15, 0);
+      coreGroup.add(node1);
+      coreGroup.node1 = node1;
+
+      return coreGroup;
+    }
+
+    // 6. ULTRA-HD SCROLLING MAG-ACCEL INDUCTION BOOST PAD
+    function buildHDBoostPad() {
+      const padGroup = new THREE.Group();
+
+      // Recessed Track Induction Bed
+      const bedGeo = new THREE.PlaneGeometry(3.6, 5.8);
+      const bedMat = new THREE.MeshStandardMaterial({
+        map: boostChevronTex,
+        roughness: 0.3,
+        metalness: 0.7,
+        side: THREE.DoubleSide
+      });
+      const bed = new THREE.Mesh(bedGeo, bedMat);
+      bed.rotation.x = -Math.PI / 2;
+      bed.position.y = 0.025;
+      padGroup.add(bed);
+      padGroup.bed = bed;
+
+      // Flanking Neon Induction Guide Rails
+      const railGeo = new THREE.BoxGeometry(0.18, 0.12, 5.8);
+      const railMat = new THREE.MeshBasicMaterial({ color: 0xff6a00 });
+      const railL = new THREE.Mesh(railGeo, railMat);
+      railL.position.set(-1.8, 0.06, 0);
+      padGroup.add(railL);
+
+      const railR = railL.clone();
+      railR.position.x = 1.8;
+      padGroup.add(railR);
+
+      return padGroup;
+    }
+
     // --- 7. INDUSTRIAL TRACK HAZARDS & ACCEL PADS ---
     function spawnObstacle(z) {
       const lanes = [-4.5, 0, 4.5];
       const lane = lanes[Math.floor(Math.random() * lanes.length)];
       const rand = Math.random();
-      const group = new THREE.Group();
-      group.lane = lane;
-      group.passed = false;
+      let group;
 
-      if (rand < 0.35) {
+      if (rand < 0.32) {
+        group = buildHDBlastDoor();
         group.obstacleType = 'blast_door';
-        const doorGeo = new THREE.BoxGeometry(3.6, 1.6, 0.8);
-        const doorMat = new THREE.MeshStandardMaterial({
-          color: 0x1f242e,
-          metalness: 0.88,
-          roughness: 0.25
-        });
-        const door = new THREE.Mesh(doorGeo, doorMat);
-        door.position.y = 0.8;
-        door.castShadow = true;
-        door.receiveShadow = true;
-        group.add(door);
-
-        const chevGeo = new THREE.BoxGeometry(3.7, 0.3, 0.85);
-        const chevMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
-        const chev = new THREE.Mesh(chevGeo, chevMat);
-        chev.position.y = 0.8;
-        group.add(chev);
-
-        const beaconGeo = new THREE.SphereGeometry(0.2, 8, 8);
-        const beaconMat = new THREE.MeshBasicMaterial({ color: 0xff1e38 });
-        const b = new THREE.Mesh(beaconGeo, beaconMat);
-        b.position.set(0, 1.7, 0);
-        group.add(b);
-
-        group.hitbox = { w: 3.6, h: 1.6, d: 0.9 };
-      } else if (rand < 0.65) {
+        group.hitbox = { w: 3.6, h: 1.6, d: 1.0 };
+      } else if (rand < 0.60) {
+        group = buildHDEMArc();
         group.obstacleType = 'em_arc';
-        const pylonGeo = new THREE.CylinderGeometry(0.22, 0.28, 3.8, 8);
-        const pylonMat = new THREE.MeshStandardMaterial({ color: 0x161b24, metalness: 0.92 });
-
-        const p1 = new THREE.Mesh(pylonGeo, pylonMat);
-        p1.position.set(-1.8, 1.9, 0);
-        p1.castShadow = true;
-        group.add(p1);
-
-        const p2 = new THREE.Mesh(pylonGeo, pylonMat);
-        p2.position.set(1.8, 1.9, 0);
-        p2.castShadow = true;
-        group.add(p2);
-
-        const arcGeo = new THREE.CylinderGeometry(0.12, 0.12, 3.6, 8);
-        const arcMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
-        const arc = new THREE.Mesh(arcGeo, arcMat);
-        arc.rotation.z = Math.PI / 2;
-        arc.position.y = 1.9;
-        group.add(arc);
-        group.arc = arc;
-
-        group.hitbox = { w: 3.6, h: 1.3, d: 0.6, yOffset: 1.9 };
-      } else {
+        group.hitbox = { w: 3.6, h: 1.4, d: 0.8, yOffset: 3.7 };
+      } else if (rand < 0.82) {
+        // Heavy Freight Mag-Lev Hauler Truck
+        group = buildHDHaulerTruck();
         group.obstacleType = 'hauler';
-        const haulerGeo = new THREE.BoxGeometry(3.0, 2.4, 6.2);
-        const haulerMat = new THREE.MeshStandardMaterial({ color: 0x181e28, metalness: 0.90, roughness: 0.22 });
-        const hauler = new THREE.Mesh(haulerGeo, haulerMat);
-        hauler.position.y = 1.2;
-        hauler.castShadow = true;
-        hauler.receiveShadow = true;
-        group.add(hauler);
-
-        const brakeGeo = new THREE.BoxGeometry(2.6, 0.25, 0.2);
-        const brakeMat = new THREE.MeshBasicMaterial({ color: 0xff1e38 });
-        const brakeMesh = new THREE.Mesh(brakeGeo, brakeMat);
-        brakeMesh.position.set(0, 1.2, 3.15);
-        group.add(brakeMesh);
-
-        group.truckSpeed = 24;
-        group.hitbox = { w: 3.0, h: 2.4, d: 6.2 };
+        group.truckSpeed = 22;
+        group.hitbox = { w: 3.0, h: 2.8, d: 8.8 };
+      } else {
+        // High-Speed Cyber Police Patrol Interceptor
+        group = buildHDPatrolCar();
+        group.obstacleType = 'interceptor';
+        group.truckSpeed = 34; // Moves faster than hauler truck
+        group.hitbox = { w: 2.3, h: 1.4, d: 4.2 };
       }
 
+      group.lane = lane;
+      group.passed = false;
       group.position.set(lane, 0, z);
       scene.add(group);
       activeObstacles.push(group);
@@ -2047,16 +2688,8 @@
     function spawnAccelPad(z) {
       const lanes = [-4.5, 0, 4.5];
       const lane = lanes[Math.floor(Math.random() * lanes.length)];
-      const padGroup = new THREE.Group();
+      const padGroup = buildHDBoostPad();
       padGroup.itemType = 'accel_pad';
-
-      const padGeo = new THREE.PlaneGeometry(3.2, 4.2);
-      const padMat = new THREE.MeshBasicMaterial({ color: 0xff6a00, side: THREE.DoubleSide });
-      const pad = new THREE.Mesh(padGeo, padMat);
-      pad.rotation.x = -Math.PI / 2;
-      pad.position.y = 0.02;
-      padGroup.add(pad);
-
       padGroup.position.set(lane, 0, z);
       scene.add(padGroup);
       activeCollectibles.push(padGroup);
@@ -2070,33 +2703,37 @@
 
       const lanes = [-4.5, 0, 4.5];
       const lane = lanes[Math.floor(Math.random() * lanes.length)];
-      const itemGroup = new THREE.Group();
+      let itemGroup;
       const rand = Math.random();
 
       if (rand < 0.75) {
+        itemGroup = buildHDIonCore();
         itemGroup.itemType = 'cell';
-        const geo = new THREE.OctahedronGeometry(0.75, 0);
-        const mat = new THREE.MeshStandardMaterial({ color: 0xff6a00, emissive: 0xff4400, emissiveIntensity: 0.9, metalness: 0.8 });
-        const core = new THREE.Mesh(geo, mat);
-        core.position.y = 1.15;
-        core.castShadow = true;
-        itemGroup.add(core);
-
-        const ringGeo = new THREE.TorusGeometry(0.95, 0.06, 8, 24);
-        const ringMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
-        const ring = new THREE.Mesh(ringGeo, ringMat);
-        ring.position.y = 1.15;
-        itemGroup.add(ring);
-        itemGroup.rotator = core;
-        itemGroup.ring = ring;
       } else {
+        itemGroup = new THREE.Group();
         itemGroup.itemType = 'shield';
-        const geo = new THREE.IcosahedronGeometry(0.8, 1);
-        const mat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true });
+
+        // High-Tech Quantum Defense Octahedral Prism
+        const geo = new THREE.IcosahedronGeometry(0.7, 1);
+        const mat = new THREE.MeshPhysicalMaterial({
+          color: 0x00e1ff,
+          emissive: 0x0099ff,
+          emissiveIntensity: 0.9,
+          wireframe: true,
+          clearcoat: 1.0
+        });
         const orb = new THREE.Mesh(geo, mat);
         orb.position.y = 1.25;
         itemGroup.add(orb);
         itemGroup.rotator = orb;
+
+        // Orbiting Mini-Defense Satellite Nodes
+        const satGeo = new THREE.SphereGeometry(0.1, 8, 8);
+        const satMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+        const sat1 = new THREE.Mesh(satGeo, satMat);
+        sat1.position.set(1.0, 1.25, 0);
+        itemGroup.add(sat1);
+        itemGroup.sat1 = sat1;
       }
 
       itemGroup.position.set(lane, 0, z);
@@ -2490,14 +3127,37 @@
         for (let i = activeObstacles.length - 1; i >= 0; i--) {
           const obs = activeObstacles[i];
           let actualMove = roadMove;
-          if (obs.obstacleType === 'hauler') {
+          if (obs.obstacleType === 'hauler' || obs.obstacleType === 'interceptor') {
             actualMove = (currentSpeed - obs.truckSpeed) * delta;
           }
           obs.position.z += actualMove;
 
-          if (obs.obstacleType === 'em_arc') {
-            const flicker = (Math.sin(elapsedTime * 22) + 1) * 0.5;
-            obs.arc.material.color.setHex(flicker > 0.3 ? 0x00f0ff : 0xffffff);
+          // Animate Interceptor Police Flashing Strobe Lightbar
+          if (obs.obstacleType === 'interceptor') {
+            const strobePhase = Math.sin(elapsedTime * 28);
+            if (obs.strobeBlue && obs.strobeRed) {
+              obs.strobeBlue.visible = strobePhase > 0;
+              obs.strobeRed.visible = strobePhase <= 0;
+            }
+          }
+
+          // Animate Hauler Truck Front Refrigerator Fan
+          if (obs.obstacleType === 'hauler' && obs.children[1] && obs.children[1].reeferFan) {
+            obs.children[1].reeferFan.rotation.z += delta * 18.0;
+          }
+
+          // Animate Blast Door Warning Beacons
+          if (obs.obstacleType === 'blast_door' && obs.beaconL && obs.beaconR) {
+            const flash = Math.sin(elapsedTime * 12) > 0;
+            obs.beaconL.visible = flash;
+            obs.beaconR.visible = !flash;
+          }
+
+          // Animate EM Arc Electric Plasma Flicker
+          if (obs.obstacleType === 'em_arc' && obs.arc) {
+            const flicker = (Math.sin(elapsedTime * 35) + 1) * 0.5;
+            obs.arc.material.color.setHex(flicker > 0.25 ? 0x90f0ff : 0xffffff);
+            obs.arc.scale.set(1.0, 1.0 + (Math.random() - 0.5) * 0.4, 1.0 + (Math.random() - 0.5) * 0.4);
           }
 
           const distZ = Math.abs(obs.position.z - player.position.z);
@@ -2519,7 +3179,7 @@
           if (distZ < 1.5 && distX < (obs.hitbox.w / 2 + 0.5)) {
             let hit = true;
             if (obs.obstacleType === 'blast_door' && player.position.y > 1.8) hit = false;
-            if (obs.obstacleType === 'em_arc' && (player.position.y < 0.75 || player.position.y > 2.8)) hit = false;
+            if (obs.obstacleType === 'em_arc' && (player.position.y < 1.0 || player.position.y > 3.6)) hit = false;
 
             if (hit) {
               if (isBoosting) {
@@ -2565,13 +3225,27 @@
           const item = activeCollectibles[i];
           item.position.z += roadMove;
 
+          if (item.itemType === 'accel_pad') {
+            // Scroll glowing neon chevron arrows forward continuously
+            boostChevronTex.offset.y -= delta * 3.5;
+          }
+
           if (item.rotator) {
             item.rotator.rotation.y += delta * 3.5;
             item.rotator.rotation.x += delta * 1.8;
           }
+          if (item.midRing) {
+            item.midRing.rotation.x -= delta * 3.2;
+            item.midRing.rotation.y += delta * 2.0;
+          }
           if (item.ring) {
             item.ring.rotation.x += delta * 2.2;
             item.ring.rotation.z += delta * 2.8;
+          }
+          if (item.sat1) {
+            const satAngle = elapsedTime * 4.5;
+            item.sat1.position.x = Math.cos(satAngle) * 1.1;
+            item.sat1.position.z = Math.sin(satAngle) * 1.1;
           }
 
           if (item.itemType === 'accel_pad') {
